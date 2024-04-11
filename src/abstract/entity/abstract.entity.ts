@@ -1,4 +1,4 @@
-import { Opt, PrimaryKey, Property } from '@mikro-orm/core';
+import { type Collection, Opt, PrimaryKey, Property } from '@mikro-orm/core';
 
 import { type Constructor } from '../../types';
 import { type AbstractDto } from '../dto/abstract.dto';
@@ -15,23 +15,29 @@ import { type AbstractTranslationEntity } from './abstract-translation.entity';
  */
 export abstract class AbstractEntity<
   DTO extends AbstractDto = AbstractDto,
-  O = never,
+  O = any,
+  Optional = any,
 > {
-  @PrimaryKey({ type: 'uuid' })
+  @PrimaryKey({ type: 'uuid', defaultRaw: 'uuid_generate_v4()' })
   id!: Uuid;
 
-  @Property({ type: 'timestamp' })
+  @Property({ type: 'timestamp', columnType: 'timestamp', defaultRaw: 'now()' })
   createdAt: Opt<Date> = new Date();
 
-  @Property({ type: 'timestamp', onUpdate: () => new Date() })
-  updatedAt!: Opt<Date>;
+  @Property({
+    type: 'timestamp',
+    columnType: 'timestamp',
+    defaultRaw: 'now()',
+    onUpdate: () => new Date(),
+  })
+  updatedAt: Opt<Date> = new Date();
 
-  translations?: AbstractTranslationEntity[];
+  translations?: Collection<AbstractTranslationEntity>;
 
-  private dtoClass?: Constructor<DTO, [AbstractEntity, O?]>;
+  dtoClass?: () => Constructor<DTO, [AbstractEntity, O?, Optional?]>;
 
   toDto(options?: O): DTO {
-    const dtoClass = this.dtoClass;
+    const dtoClass = Object.getPrototypeOf(this).dtoClass?.();
 
     if (!dtoClass) {
       throw new Error(

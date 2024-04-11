@@ -1,5 +1,5 @@
-import { ClassField } from '../../../decorators';
-import { UserDto } from '../../user/dtos/user.dto';
+import { ClassField } from '../../../decorator/field/class-field.decorator';
+import { UserDto } from '../../user/dto/user.dto.ts';
 import { TokenPayloadDto } from './token-payload.dto';
 
 export class LoginPayloadDto {

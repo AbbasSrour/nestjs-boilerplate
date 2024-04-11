@@ -1,13 +1,14 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiProperty, type ApiPropertyOptions } from '@nestjs/swagger';
+import type { ApiPropertyOptions } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsString, MaxLength, MinLength, NotEquals } from 'class-validator';
-import { ToLowerCase } from 'decorator/transformers/to-lowercase.decorator';
 
-import { ToUpperCase } from '../transformers/to-uppercase.decorator';
+import { ToLowerCase } from '../transformer/to-lowercase.decorator';
+import { ToUpperCase } from '../transformer/to-uppercase.decorator';
 import { IsNullable } from '../validator/is-nullable.decorator';
 import { IsUndefinable } from '../validator/is-undefinable.decorator';
-import { type IFieldOptions } from './field-options';
+import type { IFieldOptions } from './field-options';
 
 export interface IStringFieldOptions extends IFieldOptions {
   minLength?: number;
@@ -33,7 +34,7 @@ export function StringField(
     );
   }
 
-  const minLength = options.minLength || 1;
+  const minLength = options.minLength ?? 1;
 
   decorators.push(MinLength(minLength, { each: options.each }));
 

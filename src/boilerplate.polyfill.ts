@@ -1,18 +1,18 @@
 import 'source-map-support/register';
 
-import { type QBFilterQuery } from '@mikro-orm/core';
-import { type QueryBuilder } from '@mikro-orm/postgresql';
+import type { QBFilterQuery } from '@mikro-orm/core';
+import type { JoinType, SelectQueryBuilder } from '@mikro-orm/postgresql';
+import { QueryBuilder } from '@mikro-orm/postgresql';
 import { compact, map } from 'lodash';
-import { Brackets, SelectQueryBuilder } from 'typeorm';
 
-import { type AbstractDto } from './abstract/dto/abstract.dto';
-import { type CreateTranslationDto } from './abstract/dto/create-translation.dto';
+import type { AbstractDto } from './abstract/dto/abstract.dto';
+import type { CreateTranslationDto } from './abstract/dto/create-translation.dto';
 import { PageDto } from './abstract/dto/page.dto';
 import { PageMetaDto } from './abstract/dto/page-meta.dto';
-import { type PageOptionsDto } from './abstract/dto/page-options.dto';
-import { type AbstractEntity } from './abstract/entity/abstract.entity';
-import { type LanguageCode } from './constant/language-code';
-import { type KeyOfType } from './types';
+import type { PageOptionsDto } from './abstract/dto/page-options.dto';
+import type { AbstractEntity } from './abstract/entity/abstract.entity';
+import type { LanguageCode } from './constant/language-code';
+import type { KeyOfType } from './types.ts';
 
 declare global {
   export type Uuid = string & { _uuidBrand: undefined };
@@ -47,12 +47,13 @@ Array.prototype.toDtos = function <
   );
 };
 
+// eslint-disable-next-line canonical/no-use-extend-native
 Array.prototype.getByLanguage = function (languageCode: LanguageCode): string {
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   return this.find((translation) => languageCode === translation.languageCode)!
     .text;
 };
 
+// eslint-disable-next-line canonical/no-use-extend-native
 Array.prototype.toPageDto = function (
   pageMetaDto: PageMetaDto,
   options?: unknown,
@@ -62,7 +63,7 @@ Array.prototype.toPageDto = function (
 
 declare module '@mikro-orm/postgresql' {
   // eslint-disable-next-line @typescript-eslint/naming-convention,@typescript-eslint/ban-types
-  interface SelectQueryBuilder<T extends object> extends QueryBuilder<T> {
+  interface QueryBuilder<T extends object> {
     searchByString(
       q: string,
       columnNames: string[],
@@ -77,86 +78,131 @@ declare module '@mikro-orm/postgresql' {
       options?: Partial<{ takeAll: boolean; skipCount: boolean }>,
     ): Promise<[T[], PageMetaDto]>;
 
-    leftJoinAndSelect<AliasEntity extends AbstractEntity, A extends string>(
-      this: SelectQueryBuilder<T>,
+    join<AliasEntity extends AbstractEntity, A extends string>(
+      this: QueryBuilder<T>,
       field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
       alias: string,
-      condition?: QBFilterQuery,
-      fields?: string[],
+      cond?: QBFilterQuery,
+      type?: JoinType,
+      path?: string,
       schema?: string,
     ): this;
-
-    leftJoin<AliasEntity extends AbstractEntity, A extends string>(
-      this: SelectQueryBuilder<T>,
-      field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
-      alias: string,
-      condition?: QBFilterQuery,
-      schema?: string,
-    ): this;
-
-    innerJoinAndSelect<AliasEntity extends AbstractEntity, A extends string>(
-      this: SelectQueryBuilder<T>,
-      field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
-      alias: string,
-      condition?: QBFilterQuery,
-      fields?: string[],
-      schema?: string,
-    ): this;
-
     innerJoin<AliasEntity extends AbstractEntity, A extends string>(
-      this: SelectQueryBuilder<T>,
+      this: QueryBuilder<T>,
       field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
       alias: string,
       condition?: string,
       schema?: string,
     ): this;
+    innerJoinLateral<AliasEntity extends AbstractEntity, A extends string>(
+      this: QueryBuilder<T>,
+      field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
+      alias: string,
+      cond?: QBFilterQuery,
+      schema?: string,
+    ): this;
+    leftJoin<AliasEntity extends AbstractEntity, A extends string>(
+      this: QueryBuilder<T>,
+      field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
+      alias: string,
+      condition?: QBFilterQuery,
+      schema?: string,
+    ): this;
+    leftJoinLateral<AliasEntity extends AbstractEntity, A extends string>(
+      this: QueryBuilder<T>,
+      field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
+      alias: string,
+      cond?: QBFilterQuery,
+      schema?: string,
+    ): this;
+    joinAndSelect<AliasEntity extends AbstractEntity, A extends string>(
+      this: QueryBuilder<T>,
+      field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
+      alias: string,
+      cond?: QBFilterQuery,
+      type?: JoinType,
+      path?: string,
+      fields?: string[],
+      schema?: string,
+    ): SelectQueryBuilder<T>;
+    leftJoinAndSelect<AliasEntity extends AbstractEntity, A extends string>(
+      this: QueryBuilder<T>,
+      field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
+      alias: string,
+      cond?: QBFilterQuery,
+      fields?: string[],
+      schema?: string,
+    ): SelectQueryBuilder<T>;
+    leftJoinLateralAndSelect<
+      AliasEntity extends AbstractEntity,
+      A extends string,
+    >(
+      this: QueryBuilder<T>,
+      field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
+      alias: string,
+      cond?: QBFilterQuery,
+      fields?: string[],
+      schema?: string,
+    ): SelectQueryBuilder<T>;
+    innerJoinAndSelect<AliasEntity extends AbstractEntity, A extends string>(
+      this: QueryBuilder<T>,
+      field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
+      alias: string,
+      cond?: QBFilterQuery,
+      fields?: string[],
+      schema?: string,
+    ): SelectQueryBuilder<T>;
+    innerJoinLateralAndSelect<
+      AliasEntity extends AbstractEntity,
+      A extends string,
+    >(
+      this: QueryBuilder<T>,
+      field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
+      alias: string,
+      cond?: QBFilterQuery,
+      fields?: string[],
+      schema?: string,
+    ): SelectQueryBuilder<T>;
   }
 }
 
-SelectQueryBuilder.prototype.searchByString = function (
-  q,
-  columnNames,
-  options,
-) {
+QueryBuilder.prototype.searchByString = function (q, columnNames, options) {
   if (!q) {
     return this;
   }
 
-  this.andWhere(
-    new Brackets((qb) => {
-      for (const item of columnNames) {
-        qb.orWhere(`${item} ILIKE :q`);
-      }
-    }),
-  );
+  let query = '';
+  const params = new Array<string>();
 
-  if (options?.formStart) {
-    this.setParameter('q', `${q}%`);
-  } else {
-    this.setParameter('q', `%${q}%`);
+  for (const columnName of columnNames) {
+    query += `${columnName} ILIKE ? OR `;
+
+    if (options?.formStart) {
+      params.push(`${q}%`);
+    } else {
+      params.push(`%${q}%`);
+    }
   }
+
+  this.andWhere(`(${query.slice(0, -4)})`, params);
 
   return this;
 };
 
-SelectQueryBuilder.prototype.paginate = async function (
+QueryBuilder.prototype.paginate = async function (
   pageOptionsDto: PageOptionsDto,
   options?: Partial<{
     skipCount: boolean;
     takeAll: boolean;
   }>,
 ) {
+  const qb = this.clone();
+
   if (!options?.takeAll) {
-    this.skip(pageOptionsDto.skip).take(pageOptionsDto.take);
+    qb.limit(pageOptionsDto.take, pageOptionsDto.skip);
   }
 
-  const entities = await this.getMany();
-
-  let itemCount = -1;
-
-  if (!options?.skipCount) {
-    itemCount = await this.getCount();
-  }
+  const [entities, itemCount] = await qb.getResultAndCount();
 
   const pageMetaDto = new PageMetaDto({
     itemCount,

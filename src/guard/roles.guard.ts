@@ -1,12 +1,11 @@
-import {
-  type CanActivate,
-  type ExecutionContext,
-  Injectable,
-} from '@nestjs/common';
+import type { CanActivate, ExecutionContext } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import type { Request } from 'express';
 import _ from 'lodash';
 
-import { type RoleType } from '../constant/role-type';
+import type { RoleType } from '../constant/role-type';
+import type { UserEntity } from '../module/user/entity/user.entity.ts';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -19,8 +18,8 @@ export class RolesGuard implements CanActivate {
       return true;
     }
 
-    const request = context.switchToHttp().getRequest();
-    const user = <UserEntity>request.user;
+    const request = context.switchToHttp().getRequest<Request>();
+    const user = request.user as UserEntity;
 
     return roles.includes(user.role);
   }

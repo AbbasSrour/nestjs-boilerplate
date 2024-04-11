@@ -1,4 +1,5 @@
-import { applyDecorators, Type, UseInterceptors } from '@nestjs/common';
+import type { Type } from '@nestjs/common';
+import { applyDecorators, UseInterceptors } from '@nestjs/common';
 import {
   PARAMTYPES_METADATA,
   ROUTE_ARGS_METADATA,
@@ -11,13 +12,14 @@ import {
   ApiExtraModels,
   getSchemaPath,
 } from '@nestjs/swagger';
-import {
-  type ReferenceObject,
-  type SchemaObject,
+import type {
+  ReferenceObject,
+  SchemaObject,
 } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 import { reverseObjectKeys } from '@nestjs/swagger/dist/utils/reverse-object-keys.util';
 import _ from 'lodash';
-import { type IApiFile } from '../../interfaces';
+
+import type { IApiFile } from '../../interface';
 
 function explore(instance: Object, propertyKey: string | symbol) {
   const types: Array<Type<unknown>> = Reflect.getMetadata(

@@ -1,14 +1,14 @@
-import {
-  type CallHandler,
-  type ExecutionContext,
-  Injectable,
-  type NestInterceptor,
-  UseInterceptors,
+import type {
+  CallHandler,
+  ExecutionContext,
+  NestInterceptor,
 } from '@nestjs/common';
-import { type Observable } from 'rxjs';
+import { Injectable, UseInterceptors } from '@nestjs/common';
+import type { Request } from 'express';
+import type { Observable } from 'rxjs';
 
-import { LanguageCode } from '../constants';
-import { ContextProvider } from '../providers';
+import { LanguageCode } from '../constant/language-code.ts';
+import { ContextProvider } from '../provider/context.provider.ts';
 
 @Injectable()
 export class LanguageInterceptor implements NestInterceptor {
@@ -16,10 +16,10 @@ export class LanguageInterceptor implements NestInterceptor {
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<undefined> {
-    const request = context.switchToHttp().getRequest();
-    const language: string = request.headers['x-language-code'];
+    const request = context.switchToHttp().getRequest<Request>();
+    const language = request.headers['x-language-code'];
 
-    if (LanguageCode[language]) {
+    if (language && typeof language === 'string' && LanguageCode[language]) {
       ContextProvider.setLanguage(language);
     }
 

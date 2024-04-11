@@ -22,29 +22,13 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "strict": true,
-    "paths": {
-      "@src/*": [
-        "./src/*"
-      ],
-      "@abstract/*": [
-        "./src/abstract/*"
-      ],
-      "@constant/*": [
-        "./src/constant/*"
-      ],
-      "@decorator/*": [
-        "./src/decorator/*"
-      ],
-      "@filter/*": [
-        "./src/filter/*"
-      ],
-      "@interceptor/*": [
-        "./src/interceptor/*"
-      ],
-      "@provider/*": [
-        "./src/provider/*"
-      ]
-    }
+    "moduleDetection": "force",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "noEmitHelpers": true,
+    "noUncheckedIndexedAccess": true,
+    "noFallthroughCasesInSwitch": true,
   },
   "include": [
     "src/**/*"

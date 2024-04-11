@@ -1,5 +1,6 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiProperty, type ApiPropertyOptions } from '@nestjs/swagger';
+import type { ApiPropertyOptions } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
   IsInt,
@@ -9,11 +10,11 @@ import {
   Min,
   NotEquals,
 } from 'class-validator';
-import { ToArray } from 'decorator/transformers/to-array.decorator';
 
+import { ToArray } from '../transformer/to-array.decorator';
 import { IsNullable } from '../validator/is-nullable.decorator';
 import { IsUndefinable } from '../validator/is-undefinable.decorator';
-import { type IFieldOptions } from './field-options';
+import type { IFieldOptions } from './field-options';
 
 interface INumberFieldOptions extends IFieldOptions {
   min?: number;

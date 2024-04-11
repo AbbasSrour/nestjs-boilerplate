@@ -1,19 +1,25 @@
-import { ClassSerializerInterceptor } from '@nestjs/common';
-import { NestFactory, Reflector } from '@nestjs/core';
 import {
-  ExpressAdapter,
-  type NestExpressApplication,
-} from '@nestjs/platform-express';
+  ClassSerializerInterceptor,
+  HttpStatus,
+  UnprocessableEntityException,
+  ValidationPipe,
+} from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
+import { Transport } from '@nestjs/microservices';
+import type { NestExpressApplication } from '@nestjs/platform-express';
+import { ExpressAdapter } from '@nestjs/platform-express';
 import compression from 'compression';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './filter/bad-request.filter';
-import { SyntaxErrorFilter } from './filter/syntax-error.filter';
+import { UniqueConstraintViolationFilter } from './filter/unique-constraint.filter.ts';
 import { TranslationInterceptor } from './interceptor/translation-interceptor.service';
-import { TranslationService } from './module/shared/services/translation.service';
-import { SharedModule } from './module/shared/shared.module';
+import { ApiConfigService } from './packages/shared/services/api-config.service.ts';
+import { TranslationService } from './packages/shared/services/translation.service';
+import { SharedModule } from './packages/shared/shared.module';
+import { setupSwagger } from './swagger-config.ts';
 
 async function bootstrap(): Promise<NestExpressApplication> {
   const app = await NestFactory.create<NestExpressApplication>(
@@ -35,7 +41,7 @@ async function bootstrap(): Promise<NestExpressApplication> {
 
   app.useGlobalFilters(
     new HttpExceptionFilter(reflector),
-    new SyntaxErrorFilter(reflector),
+    new UniqueConstraintViolationFilter(reflector),
   );
 
   app.useGlobalInterceptors(
@@ -44,6 +50,43 @@ async function bootstrap(): Promise<NestExpressApplication> {
       app.select(SharedModule).get(TranslationService),
     ),
   );
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+      transform: true,
+      dismissDefaultMessages: true,
+      exceptionFactory: (errors) => new UnprocessableEntityException(errors),
+    }),
+  );
+  const configService = app.select(SharedModule).get(ApiConfigService);
+
+  // only start nats if it is enabled
+  if (configService.natsEnabled) {
+    const natsConfig = configService.natsConfig;
+    app.connectMicroservice({
+      transport: Transport.NATS,
+      options: {
+        url: `nats://${natsConfig.host}:${natsConfig.port}`,
+        queue: 'main_service',
+      },
+    });
+  }
+
+  if (configService.documentationEnabled) {
+    setupSwagger(app);
+  }
+
+  // Starts listening for shutdown hooks
+  if (!configService.isDevelopment) {
+    app.enableShutdownHooks();
+  }
+
+  const port = configService.appConfig.port;
+  await app.listen(port);
+
+  console.info(`server running on ${await app.getUrl()}`);
 
   return app;
 }

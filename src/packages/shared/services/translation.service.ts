@@ -12,7 +12,7 @@ export class TranslationService {
   constructor(private readonly i18n: I18nService) {}
 
   async translate(key: string, options?: TranslateOptions): Promise<string> {
-    return this.i18n.translate(`${key}`, {
+    return this.i18n.translate(key, {
       ...options,
       lang: ContextProvider.getLanguage(),
     });
@@ -22,15 +22,12 @@ export class TranslationService {
     await Promise.all(
       map(dto, async (value, key) => {
         if (isString(value)) {
-          const translateDec = Reflect.getMetadata(
-            STATIC_TRANSLATION_DECORATOR_KEY,
-            dto,
-            key,
-          ) as ITranslationDecoratorInterface | undefined;
+          const translateDec: ITranslationDecoratorInterface | undefined =
+            Reflect.getMetadata(STATIC_TRANSLATION_DECORATOR_KEY, dto, key);
 
           if (translateDec) {
-            return this.translate(
-              `${translateDec.translationKey ?? key}.${value}`,
+            dto[key] = await this.translate(
+              `${translateDec.prefix ? translateDec.prefix + '.' : ''}${value}`,
             );
           }
 

@@ -1,13 +1,10 @@
-import {
-  CommandHandler,
-  type ICommand,
-  type ICommandHandler,
-} from '@nestjs/cqrs';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { EntityRepository } from '@mikro-orm/postgresql';
+import type { ICommand, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler } from '@nestjs/cqrs';
 
-import { type CreateSettingsDto } from '../dto/create-settings.dto';
-import { UserSettingsEntity } from '../entity/user-settings.entity';
+import type { CreateSettingsDto } from '../dto/create-settings.dto.ts';
+import { UserSettingsEntity } from '../entity/user-settings.entity.ts';
 
 export class CreateSettingsCommand implements ICommand {
   constructor(
@@ -22,16 +19,20 @@ export class CreateSettingsHandler
 {
   constructor(
     @InjectRepository(UserSettingsEntity)
-    private userSettingsRepository: Repository<UserSettingsEntity>,
+    private userSettingsRepository: EntityRepository<UserSettingsEntity>,
   ) {}
 
-  execute(command: CreateSettingsCommand) {
+  async execute(command: CreateSettingsCommand) {
     const { userId, createSettingsDto } = command;
     const userSettingsEntity =
+      // TODO: fix type cast
+      // @ts-expect-error
       this.userSettingsRepository.create(createSettingsDto);
 
     userSettingsEntity.userId = userId;
 
-    return this.userSettingsRepository.save(userSettingsEntity);
+    await this.userSettingsRepository.insert(userSettingsEntity);
+
+    return userSettingsEntity;
   }
 }

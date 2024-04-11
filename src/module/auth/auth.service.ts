@@ -5,9 +5,9 @@ import { type RoleType } from '../../constant/role-type';
 import { TokenType } from '../../constant/token-type';
 import { UserNotFoundException } from '../../exception';
 import { GeneratorProvider } from '../../provider/generator.provider';
-import { ApiConfigService } from '../shared/services/api-config.service';
+import { ApiConfigService } from '../../packages/shared/services/api-config.service';
 import { type UserEntity } from '../user/entity/user.entity';
-import { UserService } from '../user/service/user.service';
+import { UserService } from '../user/user.service';
 import { TokenPayloadDto } from './dto/token-payload.dto';
 import { type UserLoginDto } from './dto/user-login.dto';
 

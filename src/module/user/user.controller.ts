@@ -8,15 +8,18 @@ import {
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { PageDto } from '../../common/dto/page.dto';
-import { RoleType } from '../../constants';
-import { ApiPageOkResponse, Auth, AuthUser, UUIDParam } from '../../decorators';
-import { UseLanguageInterceptor } from '../../interceptors/language-interceptor.service';
-import { TranslationService } from '../../shared/services/translation.service';
-import { UserDto } from './dtos/user.dto';
-import { UsersPageOptionsDto } from './dtos/users-page-options.dto';
-import { UserEntity } from './entity/user.entity';
-import { UserService } from './service/user.service';
+import { PageDto } from '../../abstract/dto/page.dto.ts';
+import { RoleType } from '../../constant/role-type.ts';
+import { ApiPageOkResponse } from '../../decorator/api-page-ok-response.decorator.ts';
+import { Auth } from '../../decorator/auth.decorator.ts';
+import { AuthUser } from '../../decorator/auth-user.decorator.ts';
+import { UseLanguageInterceptor } from '../../interceptor/language-interceptor.service.ts';
+import { TranslationService } from '../../packages/shared/services/translation.service.ts';
+import { UUIDParam } from '../../pipe/uuid-param.pipe.ts';
+import { UserDto } from './dto/user.dto.ts';
+import { UsersPageOptionsDto } from './dto/users-page-options.dto.ts';
+import { UserEntity } from './entity/user.entity.ts';
+import { UserService } from './user.service';
 
 @Controller('users')
 @ApiTags('users')

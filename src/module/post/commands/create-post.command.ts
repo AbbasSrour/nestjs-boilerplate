@@ -1,13 +1,11 @@
-import {
-  CommandHandler,
-  type ICommand,
-  type ICommandHandler,
-} from '@nestjs/cqrs';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Collection } from '@mikro-orm/core';
+import { InjectRepository } from '@mikro-orm/nestjs';
+import type { ICommand, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler } from '@nestjs/cqrs';
 import { find } from 'lodash';
-import { Repository } from 'typeorm';
 
-import { type CreatePostDto } from '../dtos/create-post.dto';
+import { ExtendedEntityRepository } from '../../../abstract/abstract-entity.repository.ts';
+import type { CreatePostDto } from '../dtos/create-post.dto';
 import { PostEntity } from '../post.entity';
 import { PostTranslationEntity } from '../post-translation.entity';
 
@@ -24,23 +22,23 @@ export class CreatePostHandler
 {
   constructor(
     @InjectRepository(PostEntity)
-    private postRepository: Repository<PostEntity>,
+    private postRepository: ExtendedEntityRepository<PostEntity>,
     @InjectRepository(PostTranslationEntity)
-    private postTranslationRepository: Repository<PostTranslationEntity>,
+    private postTranslationRepository: ExtendedEntityRepository<PostTranslationEntity>,
   ) {}
 
   async execute(command: CreatePostCommand) {
     const { userId, createPostDto } = command;
-    const postEntity = this.postRepository.create({ userId });
+    const postEntity = this.postRepository.create({ user: userId });
     const translations: PostTranslationEntity[] = [];
 
-    await this.postRepository.save(postEntity);
+    await this.postRepository.persistAndFlush(postEntity);
 
     // FIXME: Create generic function for translation creation
     for (const createTranslationDto of createPostDto.title) {
       const languageCode = createTranslationDto.languageCode;
       const translationEntity = this.postTranslationRepository.create({
-        postId: postEntity.id,
+        post: postEntity.id,
         languageCode,
         title: createTranslationDto.text,
         description: find(createPostDto.description, {
@@ -51,9 +49,9 @@ export class CreatePostHandler
       translations.push(translationEntity);
     }
 
-    await this.postTranslationRepository.save(translations);
+    await this.postTranslationRepository.insertMany(translations);
 
-    postEntity.translations = translations;
+    postEntity.translations = new Collection(postEntity, translations);
 
     return postEntity;
   }

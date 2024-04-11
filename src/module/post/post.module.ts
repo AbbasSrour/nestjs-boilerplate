@@ -1,5 +1,5 @@
+import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CreatePostHandler } from './commands/create-post.command';
 import { PostController } from './post.controller';
@@ -11,7 +11,7 @@ import { GetPostHandler } from './queries/get-post.query';
 const handlers = [CreatePostHandler, GetPostHandler];
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PostEntity, PostTranslationEntity])],
+  imports: [MikroOrmModule.forFeature([PostEntity, PostTranslationEntity])],
   providers: [PostService, ...handlers],
   controllers: [PostController],
 })

@@ -18,7 +18,7 @@ import { ApiFile } from '../../decorator/field/api-file.decorator';
 import { IFile } from '../../interface';
 import { UserDto } from '../user/dto/user.dto';
 import { UserEntity } from '../user/entity/user.entity';
-import { UserService } from '../user/service/user.service';
+import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
 import { LoginPayloadDto } from './dto/login-payload.dto';
 import { UserLoginDto } from './dto/user-login.dto';

@@ -1,12 +1,17 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
-import { AbstractDto } from '../../../common/dto/abstract.dto';
-import { DynamicTranslate, StaticTranslate } from '../../../decorators';
-import { type PostEntity } from '../post.entity';
+import { AbstractDto } from '../../../abstract/dto/abstract.dto.ts';
+import {
+  DynamicTranslate,
+  StaticTranslate,
+} from '../../../decorator/translate.decorator.ts';
+import { I18nPath } from '../../../generated/i18n.generated.ts';
+import type { PostEntity } from '../post.entity';
 import { PostTranslationDto } from './post-translation.dto';
 
 export class PostDto extends AbstractDto {
   @ApiPropertyOptional()
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   @DynamicTranslate()
   title?: string;
 
@@ -15,7 +20,7 @@ export class PostDto extends AbstractDto {
 
   @ApiPropertyOptional()
   @StaticTranslate()
-  info: string;
+  info: I18nPath;
 
   @ApiPropertyOptional({ type: PostTranslationDto, isArray: true })
   declare translations?: PostTranslationDto[];
@@ -23,6 +28,6 @@ export class PostDto extends AbstractDto {
   constructor(postEntity: PostEntity) {
     super(postEntity);
 
-    this.info = 'keywords.admin';
+    this.info = 'info.keywords.admin';
   }
 }

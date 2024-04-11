@@ -1,5 +1,5 @@
-import { CreateTranslationDto } from '../../../common/dto/create-translation.dto';
-import { TranslationsField } from '../../../decorators';
+import { CreateTranslationDto } from '../../../abstract/dto/create-translation.dto.ts';
+import { TranslationsField } from '../../../decorator/field/translation-field.decorator.ts';
 
 export class CreatePostDto {
   @TranslationsField({ type: CreateTranslationDto })

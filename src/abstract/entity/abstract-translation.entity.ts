@@ -7,7 +7,8 @@ import { AbstractEntity } from './abstract.entity';
 export abstract class AbstractTranslationEntity<
   DTO extends AbstractTranslationDto = AbstractTranslationDto,
   O = never,
-> extends AbstractEntity<DTO, O> {
-  @Enum({ items: () => LanguageCode })
+  Optional = never,
+> extends AbstractEntity<DTO, O, Optional> {
+  @Enum(() => LanguageCode)
   languageCode!: LanguageCode;
 }
