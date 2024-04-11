@@ -1,16 +1,9 @@
-import {
-  Collection,
-  Entity,
-  Enum,
-  OneToMany,
-  OneToOne,
-  Property,
-} from '@mikro-orm/core';
+import { Entity, Enum, OneToOne, Property } from '@mikro-orm/core';
 
 import { AbstractEntity } from '../../../abstract/entity/abstract.entity.ts';
 import { RoleType } from '../../../constant/role-type.ts';
 import { UseDto } from '../../../decorator/use-dto.decorator.ts';
-import { PostEntity } from '../../post/post.entity.ts';
+// import { PostEntity } from '../../post/post.entity.ts';
 import type { UserDtoOptions } from '../dto/user.dto.ts';
 import { UserDto } from '../dto/user.dto.ts';
 import { UserSettingsEntity } from './user-settings.entity.ts';
@@ -52,6 +45,6 @@ export class UserEntity extends AbstractEntity<UserDto, UserDtoOptions> {
   @OneToOne(() => UserSettingsEntity, (userSettings) => userSettings.user)
   settings?: UserSettingsEntity;
 
-  @OneToMany(() => PostEntity, (postEntity) => postEntity.user)
-  posts = new Collection<PostEntity>(this);
+  // @OneToMany(() => PostEntity, (postEntity) => postEntity.user)
+  // posts = new Collection<PostEntity>(this);
 }

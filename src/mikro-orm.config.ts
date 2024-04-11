@@ -1,3 +1,4 @@
+// eslint-disable-next-line canonical/filename-match-exported
 import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { Migrator, TSMigrationGenerator } from '@mikro-orm/migrations';
 import type { Options } from '@mikro-orm/postgresql';
@@ -8,7 +9,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export const config: Options = {
+const config: Options = {
   driver: PostgreSqlDriver,
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
@@ -26,8 +27,14 @@ export const config: Options = {
   },
   dbName: process.env.DB_DATABASE,
   // folder-based discovery setup, using common filename suffix
-  entities: ['./dist/modules/**/*.entity.js'],
-  entitiesTs: ['./src/modules/**/*.entity.ts'],
+  entities: [
+    './dist/module/**/*.entity.js',
+    './dist/module/**/entity/*.entity.js',
+  ],
+  entitiesTs: [
+    './src/module/**/*.entity.ts',
+    './src/module/**/entity/*.entity.ts',
+  ],
   // we will use the ts-morph reflection, an alternative to the default reflect-metadata provider
   // check the documentation for their differences: https://mikro-orm.io/docs/metadata-providers
   metadataProvider: TsMorphMetadataProvider,
@@ -39,3 +46,6 @@ export const config: Options = {
   forceUndefined: true,
   extensions: [Migrator, EntityGenerator, SeedManager],
 };
+
+// eslint-disable-next-line canonical/no-unused-exports
+export default config;

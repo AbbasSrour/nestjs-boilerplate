@@ -11,7 +11,6 @@ import { PostTranslationDto } from './post-translation.dto';
 
 export class PostDto extends AbstractDto {
   @ApiPropertyOptional()
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   @DynamicTranslate()
   title?: string;
 
@@ -28,6 +27,6 @@ export class PostDto extends AbstractDto {
   constructor(postEntity: PostEntity) {
     super(postEntity);
 
-    this.info = 'info.keywords.admin';
+    this.info = 'admin.keywords.admin';
   }
 }

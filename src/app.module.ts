@@ -23,17 +23,18 @@ import {
 import { AuthModule } from './module/auth/auth.module';
 import { ChatbotModule } from './module/chatbot/chatbot.module.ts';
 import { HealthCheckerModule } from './module/health-checker/health-checker.module';
-import { PostModule } from './module/post/post.module';
+// import { PostModule } from './module/post/post.module';
 import { UserModule } from './module/user/user.module';
 import { ApiConfigService } from './packages/shared/services/api-config.service';
 import { SharedModule } from './packages/shared/shared.module';
 
 @Module({
   imports: [
-    AuthModule,
-    UserModule,
-    ChatbotModule,
-    PostModule,
+    MikroOrmModule.forRootAsync({
+      imports: [SharedModule],
+      useFactory: (configService: ApiConfigService) => configService.mikroOrm,
+      inject: [ApiConfigService],
+    }),
     ClsModule.forRoot({
       global: true,
       middleware: {
@@ -51,11 +52,6 @@ import { SharedModule } from './packages/shared/shared.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
-    MikroOrmModule.forRootAsync({
-      imports: [SharedModule],
-      useFactory: (configService: ApiConfigService) => configService.mikroOrm,
-      inject: [ApiConfigService],
-    }),
     I18nModule.forRootAsync({
       useFactory: (configService: ApiConfigService) => ({
         fallbackLanguage: configService.fallbackLanguage,
@@ -72,6 +68,10 @@ import { SharedModule } from './packages/shared/shared.module';
       imports: [SharedModule],
       inject: [ApiConfigService],
     }),
+    AuthModule,
+    UserModule,
+    ChatbotModule,
+    // PostModule,
     HealthCheckerModule,
   ],
   providers: [],

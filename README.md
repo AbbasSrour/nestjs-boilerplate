@@ -1,3 +1,5 @@
 - [ ] Testing setup
-- [ ] hygen
-- [ ] dev dependencies
+- [ ] fix subscriber
+- [ ] fix validators
+- [ ] fix typed query builder
+- [ ] add auto filters

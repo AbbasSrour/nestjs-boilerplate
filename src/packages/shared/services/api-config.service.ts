@@ -84,8 +84,14 @@ export class ApiConfigService {
 
   get mikroOrm(): MikroOrmModuleSyncOptions {
     return {
-      entities: ['./dist/modules/**/*.entity.js'],
-      entitiesTs: ['./src/modules/**/*.entity.ts'],
+      entities: [
+        './dist/module/**/*.entity.js',
+        './dist/module/**/entity/*.entity.js',
+      ],
+      entitiesTs: [
+        './src/module/**/*.entity.ts',
+        './src/module/**/entity/*.entity.ts',
+      ],
       entityRepository: ExtendedEntityRepository,
       // subscribers: [UserSubscriber],
       migrations: {

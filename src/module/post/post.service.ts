@@ -3,11 +3,11 @@ import { EntityRepository } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 
-import type { PageDto } from '../../abstract/dto/page.dto.ts';
+import { PageDto } from '../../abstract/dto/page.dto.ts';
 import { CreatePostCommand } from './commands/create-post.command';
 import type { CreatePostDto } from './dtos/create-post.dto';
-import type { PostDto } from './dtos/post.dto.ts';
-import type { PostPageOptionsDto } from './dtos/post-page-options.dto.ts';
+import { PostDto } from './dtos/post.dto.ts';
+import { PostPageOptionsDto } from './dtos/post-page-options.dto.ts';
 import type { UpdatePostDto } from './dtos/update-post.dto';
 import { PostNotFoundException } from './exceptions/post-not-found.exception';
 import { PostEntity } from './post.entity';

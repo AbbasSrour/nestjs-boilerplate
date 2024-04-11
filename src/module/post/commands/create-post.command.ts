@@ -4,7 +4,7 @@ import type { ICommand, ICommandHandler } from '@nestjs/cqrs';
 import { CommandHandler } from '@nestjs/cqrs';
 import { find } from 'lodash';
 
-import { ExtendedEntityRepository } from '../../../abstract/abstract-entity.repository.ts';
+import { ExtendedEntityRepository } from '../../../common/extended-entity-repository';
 import type { CreatePostDto } from '../dtos/create-post.dto';
 import { PostEntity } from '../post.entity';
 import { PostTranslationEntity } from '../post-translation.entity';

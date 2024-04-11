@@ -1,9 +1,5 @@
-import type {
-  EventArgs,
-  EventSubscriber,
-  FlushEventArgs,
-} from '@mikro-orm/core';
-import { EntityManager } from '@mikro-orm/postgresql';
+import type { EventArgs, FlushEventArgs } from '@mikro-orm/core';
+import { EventSubscriber } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
 
 import { GeneratorProvider } from '../../../provider/generator.provider.ts';
@@ -11,9 +7,10 @@ import { UserEntity } from '../entity/user.entity.ts';
 
 @Injectable()
 export class UserSubscriber implements EventSubscriber<UserEntity> {
-  constructor(em: EntityManager) {
-    em.getEventManager().registerSubscriber(this);
-  }
+  // TODO: fix this
+  // constructor(em: EntityManager) {
+  //   em.getEventManager().registerSubscriber(this);
+  // }
 
   getSubscribedEntities() {
     return [UserEntity];

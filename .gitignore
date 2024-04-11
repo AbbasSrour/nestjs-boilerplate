@@ -83,3 +83,5 @@ temp
 
 # Local History
 .history
+/pnpm-lock.yaml
+*.env

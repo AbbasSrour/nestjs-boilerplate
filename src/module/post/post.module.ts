@@ -1,4 +1,3 @@
-import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 
 import { CreatePostHandler } from './commands/create-post.command';
@@ -7,6 +6,7 @@ import { PostEntity } from './post.entity';
 import { PostService } from './post.service';
 import { PostTranslationEntity } from './post-translation.entity';
 import { GetPostHandler } from './queries/get-post.query';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
 
 const handlers = [CreatePostHandler, GetPostHandler];
 
