@@ -1,0 +1,3 @@
+- [ ] Testing setup
+- [ ] hygen
+- [ ] dev dependencies

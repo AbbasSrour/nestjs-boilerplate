@@ -1,0 +1,56 @@
+{
+  "compilerOptions": {
+    "rootDir": "src",
+    "module": "commonjs",
+    "declaration": false,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "target": "ES2022",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "incremental": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "strict": true,
+    "paths": {
+      "@src/*": [
+        "./src/*"
+      ],
+      "@abstract/*": [
+        "./src/abstract/*"
+      ],
+      "@constant/*": [
+        "./src/constant/*"
+      ],
+      "@decorator/*": [
+        "./src/decorator/*"
+      ],
+      "@filter/*": [
+        "./src/filter/*"
+      ],
+      "@interceptor/*": [
+        "./src/interceptor/*"
+      ],
+      "@provider/*": [
+        "./src/provider/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
+}
