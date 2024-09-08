@@ -1,4 +1,4 @@
-import type { FilterQuery } from '@mikro-orm/core/typings';
+import type { FilterQuery } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
@@ -93,7 +93,7 @@ export class UserService {
   ): Promise<PageDto<UserDto>> {
     const queryBuilder = this.userRepository.createQueryBuilder('user');
 
-    queryBuilder.andWhere({ role: RoleType.USER });
+    void queryBuilder.andWhere({ role: RoleType.USER });
     const [items, pageMetaDto] = await queryBuilder.paginate(pageOptionsDto);
 
     return items.toPageDto(pageMetaDto);

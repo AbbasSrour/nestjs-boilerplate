@@ -63,7 +63,7 @@ Array.prototype.toPageDto = function (
 
 declare module '@mikro-orm/postgresql' {
   // eslint-disable-next-line @typescript-eslint/naming-convention,@typescript-eslint/ban-types
-  interface QueryBuilder<T extends object> {
+  interface QueryBuilder<Entity extends object> {
     searchByString(
       q: string,
       columnNames: string[],
@@ -73,13 +73,13 @@ declare module '@mikro-orm/postgresql' {
     ): this;
 
     paginate(
-      this: QueryBuilder<T>,
+      this: QueryBuilder<Entity>,
       pageOptionsDto: PageOptionsDto,
       options?: Partial<{ takeAll: boolean; skipCount: boolean }>,
-    ): Promise<[T[], PageMetaDto]>;
+    ): Promise<[Entity[], PageMetaDto]>;
 
     join<AliasEntity extends AbstractEntity, A extends string>(
-      this: QueryBuilder<T>,
+      this: QueryBuilder<Entity>,
       field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
       alias: string,
       cond?: QBFilterQuery,
@@ -88,35 +88,35 @@ declare module '@mikro-orm/postgresql' {
       schema?: string,
     ): this;
     innerJoin<AliasEntity extends AbstractEntity, A extends string>(
-      this: QueryBuilder<T>,
+      this: QueryBuilder<Entity>,
       field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
       alias: string,
       condition?: string,
       schema?: string,
     ): this;
     innerJoinLateral<AliasEntity extends AbstractEntity, A extends string>(
-      this: QueryBuilder<T>,
+      this: QueryBuilder<Entity>,
       field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
       alias: string,
       cond?: QBFilterQuery,
       schema?: string,
     ): this;
     leftJoin<AliasEntity extends AbstractEntity, A extends string>(
-      this: QueryBuilder<T>,
+      this: QueryBuilder<Entity>,
       field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
       alias: string,
       condition?: QBFilterQuery,
       schema?: string,
     ): this;
     leftJoinLateral<AliasEntity extends AbstractEntity, A extends string>(
-      this: QueryBuilder<T>,
+      this: QueryBuilder<Entity>,
       field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
       alias: string,
       cond?: QBFilterQuery,
       schema?: string,
     ): this;
     joinAndSelect<AliasEntity extends AbstractEntity, A extends string>(
-      this: QueryBuilder<T>,
+      this: QueryBuilder<Entity>,
       field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
       alias: string,
       cond?: QBFilterQuery,
@@ -124,45 +124,45 @@ declare module '@mikro-orm/postgresql' {
       path?: string,
       fields?: string[],
       schema?: string,
-    ): SelectQueryBuilder<T>;
+    ): SelectQueryBuilder<Entity>;
     leftJoinAndSelect<AliasEntity extends AbstractEntity, A extends string>(
-      this: QueryBuilder<T>,
+      this: QueryBuilder<Entity>,
       field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
       alias: string,
       cond?: QBFilterQuery,
       fields?: string[],
       schema?: string,
-    ): SelectQueryBuilder<T>;
+    ): SelectQueryBuilder<Entity>;
     leftJoinLateralAndSelect<
       AliasEntity extends AbstractEntity,
       A extends string,
     >(
-      this: QueryBuilder<T>,
+      this: QueryBuilder<Entity>,
       field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
       alias: string,
       cond?: QBFilterQuery,
       fields?: string[],
       schema?: string,
-    ): SelectQueryBuilder<T>;
+    ): SelectQueryBuilder<Entity>;
     innerJoinAndSelect<AliasEntity extends AbstractEntity, A extends string>(
-      this: QueryBuilder<T>,
+      this: QueryBuilder<Entity>,
       field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
       alias: string,
       cond?: QBFilterQuery,
       fields?: string[],
       schema?: string,
-    ): SelectQueryBuilder<T>;
+    ): SelectQueryBuilder<Entity>;
     innerJoinLateralAndSelect<
       AliasEntity extends AbstractEntity,
       A extends string,
     >(
-      this: QueryBuilder<T>,
+      this: QueryBuilder<Entity>,
       field: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
       alias: string,
       cond?: QBFilterQuery,
       fields?: string[],
       schema?: string,
-    ): SelectQueryBuilder<T>;
+    ): SelectQueryBuilder<Entity>;
   }
 }
 
