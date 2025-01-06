@@ -11,6 +11,7 @@ import { UseDto } from '../../decorator/use-dto.decorator';
 import { UserEntity } from '../user/entity/user.entity';
 import { PostDto } from './dtos/post.dto';
 import { PostTranslationEntity } from './post-translation.entity';
+import type { Type } from 'interface/type';
 
 @Entity({ tableName: 'posts' })
 @UseDto(() => PostDto)
@@ -25,7 +26,7 @@ export class PostEntity extends AbstractEntity<PostDto> {
     updateRule: 'cascade',
     nullable: false,
   })
-  user?: UserEntity;
+  user?: Type<UserEntity>;
 
   @OneToMany(
     () => PostTranslationEntity,

@@ -1,4 +1,3 @@
-// eslint-disable-next-line canonical/filename-match-exported
 import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { Migrator, TSMigrationGenerator } from '@mikro-orm/migrations';
 import type { Options } from '@mikro-orm/postgresql';
@@ -11,6 +10,7 @@ dotenv.config();
 
 const config: Options = {
   driver: PostgreSqlDriver,
+  name:"default",
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
   autoJoinOneToOneOwner: false,
@@ -25,8 +25,8 @@ const config: Options = {
     // dropTables: this.isTest,
     generator: TSMigrationGenerator,
   },
+  // eslint-disable-next-line turbo/no-undeclared-env-vars
   dbName: process.env.DB_DATABASE,
-  // folder-based discovery setup, using common filename suffix
   entities: [
     './dist/module/**/*.entity.js',
     './dist/module/**/entity/*.entity.js',
@@ -35,17 +35,14 @@ const config: Options = {
     './src/module/**/*.entity.ts',
     './src/module/**/entity/*.entity.ts',
   ],
-  // we will use the ts-morph reflection, an alternative to the default reflect-metadata provider
-  // check the documentation for their differences: https://mikro-orm.io/docs/metadata-providers
   metadataProvider: TsMorphMetadataProvider,
   ignoreUndefinedInQuery: true,
   populateWhere: PopulateHint.INFER, // revert to v4 behaviour
   validate: true,
   strict: true,
-  debug: true, // enable debug mode to log SQL queries and discovery information
+  debug: true,
   forceUndefined: true,
   extensions: [Migrator, EntityGenerator, SeedManager],
 };
 
-// eslint-disable-next-line canonical/no-unused-exports
 export default config;

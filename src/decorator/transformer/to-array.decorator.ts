@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { castArray, isNil } from 'lodash';
+import _ from 'lodash';
 
 /**
  * @description transforms to array, specially for query params
@@ -14,11 +14,11 @@ export function ToArray(): PropertyDecorator {
     (params) => {
       const value = params.value;
 
-      if (isNil(value)) {
+      if (_.isNil(value)) {
         return [];
       }
 
-      return castArray(value);
+      return _.castArray(value);
     },
     { toClassOnly: true },
   );

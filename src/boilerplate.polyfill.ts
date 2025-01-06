@@ -1,9 +1,10 @@
-import 'source-map-support/register';
+/* eslint-disable no-unused-vars */
+// import 'source-map-support/register';
 
 import type { QBFilterQuery } from '@mikro-orm/core';
 import type { JoinType, SelectQueryBuilder } from '@mikro-orm/postgresql';
 import { QueryBuilder } from '@mikro-orm/postgresql';
-import { compact, map } from 'lodash';
+import _ from 'lodash';
 
 import type { AbstractDto } from './abstract/dto/abstract.dto';
 import type { CreateTranslationDto } from './abstract/dto/create-translation.dto';
@@ -16,10 +17,8 @@ import type { KeyOfType } from './types';
 
 declare global {
   export type Uuid = string & { _uuidBrand: undefined };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-redundant-type-constituents
   export type Todo = any & { _todoBrand: undefined };
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   interface Array<T> {
     toDtos<Dto extends AbstractDto>(this: T[], options?: unknown): Dto[];
 
@@ -37,23 +36,20 @@ declare global {
   }
 }
 
-// eslint-disable-next-line canonical/no-use-extend-native
 Array.prototype.toDtos = function <
   Entity extends AbstractEntity<Dto>,
   Dto extends AbstractDto,
 >(options?: unknown): Dto[] {
-  return compact(
-    map<Entity, Dto>(this as Entity[], (item) => item.toDto(options as never)),
+  return _.compact(
+    _.map<Entity, Dto>(this as Entity[], (item) => item.toDto(options as never)),
   );
 };
 
-// eslint-disable-next-line canonical/no-use-extend-native
 Array.prototype.getByLanguage = function (languageCode: LanguageCode): string {
   return this.find((translation) => languageCode === translation.languageCode)!
     .text;
 };
 
-// eslint-disable-next-line canonical/no-use-extend-native
 Array.prototype.toPageDto = function (
   pageMetaDto: PageMetaDto,
   options?: unknown,
@@ -62,7 +58,6 @@ Array.prototype.toPageDto = function (
 };
 
 declare module '@mikro-orm/postgresql' {
-  // eslint-disable-next-line @typescript-eslint/naming-convention,@typescript-eslint/ban-types
   interface QueryBuilder<Entity extends object> {
     searchByString(
       q: string,

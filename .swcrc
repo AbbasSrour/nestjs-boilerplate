@@ -1,13 +1,21 @@
 {
   "$schema": "https://json.schemastore.org/swcrc",
+  "minify": false,
+  "exclude": "node_modules/",
   "sourceMaps": true,
+  "isModule": true,
+  "module": {
+    "type": "nodenext",
+    "resolveFully": true
+  },
   "jsc": {
+    "target": "esnext",
+    "baseUrl": "./",
     "parser": {
       "syntax": "typescript",
       "decorators": true,
-      "dynamicImport": true
-    },
-    "baseUrl": "./"
-  },
-  "minify": false
+      "dynamicImport": true,
+      "dts": true
+    }
+  }
 }

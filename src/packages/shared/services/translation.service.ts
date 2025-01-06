@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { isArray, isString, map } from 'lodash';
+import _ from 'lodash';
 import { I18nService, type TranslateOptions } from 'nestjs-i18n';
 
 import { AbstractDto } from '../../../abstract/dto/abstract.dto';
@@ -20,8 +20,8 @@ export class TranslationService {
 
   async translateNecessaryKeys<T extends AbstractDto>(dto: T): Promise<T> {
     await Promise.all(
-      map(dto, async (value, key) => {
-        if (isString(value)) {
+      _.map(dto, async (value, key) => {
+        if (_.isString(value)) {
           const translateDec: ITranslationDecoratorInterface | undefined =
             Reflect.getMetadata(STATIC_TRANSLATION_DECORATOR_KEY, dto, key);
 
@@ -38,9 +38,9 @@ export class TranslationService {
           return this.translateNecessaryKeys(value);
         }
 
-        if (isArray(value)) {
+        if (_.isArray(value)) {
           return Promise.all(
-            map(value, (v) => {
+            _.map(value, (v) => {
               if (v instanceof AbstractDto) {
                 return this.translateNecessaryKeys(v);
               }

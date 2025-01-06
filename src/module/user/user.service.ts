@@ -1,4 +1,4 @@
-import type { FilterQuery } from '@mikro-orm/core';
+import { FilterQuery, wrap } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
@@ -23,21 +23,17 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private userRepository: ExtendedEntityRepository<UserEntity>,
-    private validatorService: ValidatorService,
-    private awsS3Service: AwsS3Service,
-    private commandBus: CommandBus,
+    private readonly userRepository: ExtendedEntityRepository<UserEntity>,
+    private readonly validatorService: ValidatorService,
+    private readonly commandBus: CommandBus
   ) {}
 
-  /**
-   * Find single user
-   */
   findOne(findData: FilterQuery<UserEntity>): Promise<UserEntity | null> {
     return this.userRepository.findOne(findData);
   }
 
   async findByUsernameOrEmail(
-    options: Partial<{ username: string; email: string }>,
+    options: Partial<{ username: string; email: string }>
   ): Promise<UserEntity | null> {
     const queryBuilder = this.userRepository
       .createQueryBuilder('user')
@@ -56,7 +52,7 @@ export class UserService {
 
   async createUser(
     userRegisterDto: UserRegisterDto,
-    file?: IFile,
+    file?: IFile
   ): Promise<UserEntity> {
     const user = this.userRepository.create({
       email: userRegisterDto.email,
@@ -64,15 +60,11 @@ export class UserService {
       lastName: userRegisterDto.lastName,
       password: userRegisterDto.password,
       phone: userRegisterDto.phone,
-      role: RoleType.USER,
+      role: RoleType.USER
     });
 
     if (file && !this.validatorService.isImage(file.mimetype)) {
       throw new FileNotImageException();
-    }
-
-    if (file) {
-      user.avatar = await this.awsS3Service.uploadImage(file);
     }
 
     await this.userRepository.persistAndFlush(user);
@@ -81,19 +73,27 @@ export class UserService {
       user.id,
       plainToClass(CreateSettingsDto, {
         isEmailVerified: false,
-        isPhoneVerified: false,
-      }),
+        isPhoneVerified: false
+      })
     );
 
     return user;
   }
 
   async getUsers(
-    pageOptionsDto: UsersPageOptionsDto,
+    pageOptionsDto: UsersPageOptionsDto
   ): Promise<PageDto<UserDto>> {
     const queryBuilder = this.userRepository.createQueryBuilder('user');
 
-    void queryBuilder.andWhere({ role: RoleType.USER });
+    queryBuilder.andWhere({ role: RoleType.USER });
+    if (pageOptionsDto.q) {
+      queryBuilder.searchByString(pageOptionsDto.q, [
+        'user.firstName',
+        'user.lastName',
+        'user.email'
+      ]);
+    }
+
     const [items, pageMetaDto] = await queryBuilder.paginate(pageOptionsDto);
 
     return items.toPageDto(pageMetaDto);
@@ -115,10 +115,24 @@ export class UserService {
 
   async createSettings(
     userId: Uuid,
-    createSettingsDto: CreateSettingsDto,
+    createSettingsDto: CreateSettingsDto
   ): Promise<UserSettingsEntity> {
     return this.commandBus.execute<CreateSettingsCommand, UserSettingsEntity>(
-      new CreateSettingsCommand(userId, createSettingsDto),
+      new CreateSettingsCommand(userId, createSettingsDto)
     );
+  }
+
+  async updateUser(userId: Uuid, updateUser: UpdateUserDto): Promise<UserDto> {
+    const user = await this.userRepository.findOneOrFail(userId);
+    wrap(user).assign(updateUser);
+    await this.userRepository.flush();
+
+    return user.toDto();
+  }
+
+  async deleteUser(userId: Uuid): Promise<void> {
+    const user = await this.userRepository.findOneOrFail(userId);
+    this.userRepository.remove(user);
+    await this.userRepository.flush();
   }
 }

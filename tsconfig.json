@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
     "rootDir": "src",
-    "module": "commonjs",
-    "declaration": false,
+    "module": "ES2022",
+    "declaration": true,
     "noImplicitAny": false,
+    "lib": ["es2022"],
+    "moduleResolution": "Node",
     "removeComments": true,
     "noLib": false,
     "importHelpers": true,
@@ -12,6 +14,8 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "allowUnreachableCode": false,
+    "forceConsistentCasingInFileNames": true,
     "target": "ES2022",
     "sourceMap": true,
     "outDir": "./dist",
@@ -19,20 +23,30 @@
     "incremental": true,
     "strictNullChecks": true,
     "skipLibCheck": true,
+    "noImplicitReturns": false,
+    "noImplicitThis": true,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
-    "strict": true,
+    "strict": false,
     "moduleDetection": "force",
     "noEmit": true,
-    "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": false,
     "isolatedModules": true,
     "noEmitHelpers": true,
     "noUncheckedIndexedAccess": true,
     "noFallthroughCasesInSwitch": true,
+    "strictPropertyInitialization": true,
+    //    "exactOptionalPropertyTypes": true,
+    //    "noPropertyAccessFromIndexSignature": true,
   },
   "include": [
     "src/**/*"
   ],
+  "ts-node": {
+    "experimentalSpecifierResolution": "node",
+    "transpileOnly": true,
+    "esm": true
+  },
   "exclude": [
     "node_modules",
     "**/*.spec.ts"

@@ -1,5 +1,6 @@
-import { registerDecorator, ValidationOptions } from 'class-validator';
-import { isString } from 'lodash';
+import type { ValidationOptions } from 'class-validator';
+import { registerDecorator } from 'class-validator';
+import _ from 'lodash';
 
 export function IsTmpKey(
   validationOptions?: ValidationOptions,
@@ -12,7 +13,7 @@ export function IsTmpKey(
       options: validationOptions,
       validator: {
         validate(value: string): boolean {
-          return isString(value) && /^tmp\//.test(value);
+          return _.isString(value) && value.startsWith('tmp/');
         },
         defaultMessage(): string {
           return 'error.invalidTmpKey';

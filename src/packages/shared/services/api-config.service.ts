@@ -1,13 +1,16 @@
 import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { Migrator, TSMigrationGenerator } from '@mikro-orm/migrations';
 import type { MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs';
-import { PopulateHint, PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
+import {
+  PopulateHint,
+  PostgreSqlDriver,
+  ReflectMetadataProvider,
+} from '@mikro-orm/postgresql';
 import { SeedManager } from '@mikro-orm/seeder';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import type { ThrottlerOptions } from '@nestjs/throttler';
-import { isNil } from 'lodash';
+import _ from 'lodash';
 import type { Units } from 'parse-duration';
 import { default as parse } from 'parse-duration';
 
@@ -43,7 +46,7 @@ export class ApiConfigService {
     const value = this.getString(key);
     const duration = parse(value, format);
 
-    if (duration === undefined) {
+    if (!duration) {
       throw new Error(`${key} environment variable is not a valid duration`);
     }
 
@@ -84,24 +87,7 @@ export class ApiConfigService {
 
   get mikroOrm(): MikroOrmModuleSyncOptions {
     return {
-      entities: [
-        './dist/module/**/*.entity.js',
-        './dist/module/**/entity/*.entity.js',
-      ],
-      entitiesTs: [
-        './src/module/**/*.entity.ts',
-        './src/module/**/entity/*.entity.ts',
-      ],
       entityRepository: ExtendedEntityRepository,
-      // subscribers: [UserSubscriber],
-      migrations: {
-        transactional: true,
-        path: './dist/database/migrations',
-        pathTs: './src/database/migrations',
-        glob: '!(*.d).{js,ts}',
-        dropTables: this.isTest,
-        generator: TSMigrationGenerator,
-      },
       driver: PostgreSqlDriver,
       name: 'default',
       host: this.getString('DB_HOST'),
@@ -109,14 +95,13 @@ export class ApiConfigService {
       user: this.getString('DB_USERNAME'),
       password: this.getString('DB_PASSWORD'),
       dbName: this.getString('DB_DATABASE'),
-      // subscribers: [UserSubscriber],
       debug: true,
       autoJoinOneToOneOwner: false,
       autoJoinRefsForFilters: false,
       forceUndefined: true,
       ignoreUndefinedInQuery: true,
       extensions: [Migrator, EntityGenerator, SeedManager],
-      metadataProvider: TsMorphMetadataProvider,
+      metadataProvider: ReflectMetadataProvider, // TsMorphMetadataProvider
       populateWhere: PopulateHint.INFER, // revert to v4 behaviour
       validate: true,
       strict: true,
@@ -125,13 +110,31 @@ export class ApiConfigService {
         pathTs: './src/seeders',
         defaultSeeder: 'DatabaseSeeder',
       },
+      entities: [
+        './dist/module/**/*.entity.js',
+        './dist/module/**/entity/*.entity.js',
+      ],
+      entitiesTs: [
+        './src/module/**/*.entity.ts',
+        './src/module/**/entity/*.entity.ts',
+      ],
+      migrations: {
+        transactional: true,
+        path: './dist/database/migrations',
+        pathTs: './src/database/migrations',
+        glob: '!(*.d).{js,ts}',
+        dropTables: this.isTest,
+        generator: TSMigrationGenerator,
+        allOrNothing: true,
+        safe: true,
+        emit: 'ts',
+      },
       discovery: {
         warnWhenNoEntities: true,
         checkDuplicateTableNames: true,
         checkDuplicateFieldNames: true,
         alwaysAnalyseProperties: true,
       },
-      // namingStrategy: new SnakeNamingStrategy(),
     };
   }
 
@@ -181,8 +184,8 @@ export class ApiConfigService {
   private get(key: string): string {
     const value = this.configService.get<string>(key);
 
-    if (isNil(value)) {
-      throw new Error(key + ' environment variable does not set'); // probably we should call process.exit() too to avoid locking the service
+    if (_.isNil(value)) {
+      throw new TypeError(key + ' environment variable does not set'); // probably we should call process.exit() too to avoid locking the service
     }
 
     return value;

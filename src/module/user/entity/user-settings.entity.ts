@@ -9,8 +9,8 @@ import { UserEntity } from './user.entity';
 @Entity({ tableName: 'user_settings' })
 @UseDto(() => UserSettingsDto)
 export class UserSettingsEntity extends AbstractEntity<
-  UserDto,
-  UserDtoOptions
+  UserSettingsDto,
+  UserSettingsDtoOptions
 > {
   @Property({ default: false })
   isEmailVerified = false;
@@ -28,5 +28,5 @@ export class UserSettingsEntity extends AbstractEntity<
     deleteRule: 'cascade',
     updateRule: 'cascade',
   })
-  user?: UserEntity;
+  user?: Type<UserEntity>;
 }

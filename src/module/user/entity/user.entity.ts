@@ -43,8 +43,5 @@ export class UserEntity extends AbstractEntity<UserDto, UserDtoOptions> {
   // fullName!: string;
 
   @OneToOne(() => UserSettingsEntity, (userSettings) => userSettings.user)
-  settings?: UserSettingsEntity;
-
-  // @OneToMany(() => PostEntity, (postEntity) => postEntity.user)
-  // posts = new Collection<PostEntity>(this);
+  settings?: Type<UserSettingsEntity>;
 }

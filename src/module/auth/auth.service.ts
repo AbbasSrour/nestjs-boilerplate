@@ -14,9 +14,9 @@ import { type UserLoginDto } from './dto/user-login.dto';
 @Injectable()
 export class AuthService {
   constructor(
-    private jwtService: JwtService,
-    private configService: ApiConfigService,
-    private userService: UserService,
+    private readonly jwtService: JwtService,
+    private readonly configService: ApiConfigService,
+    private readonly userService: UserService
   ) {}
 
   async createAccessToken(data: {
@@ -25,22 +25,22 @@ export class AuthService {
   }): Promise<TokenPayloadDto> {
     return new TokenPayloadDto({
       expiresIn: this.configService.authConfig.jwtExpirationTime,
-      accessToken: await this.jwtService.signAsync({
+      token: await this.jwtService.signAsync({
         userId: data.userId,
         type: TokenType.ACCESS_TOKEN,
-        role: data.role,
-      }),
+        role: data.role
+      })
     });
   }
 
   async validateUser(userLoginDto: UserLoginDto): Promise<UserEntity> {
     const user = await this.userService.findOne({
-      email: userLoginDto.email,
+      email: userLoginDto.email
     });
 
     const isPasswordValid = await GeneratorProvider.validateHash(
       userLoginDto.password,
-      user?.password,
+      user?.password
     );
 
     if (!isPasswordValid) {

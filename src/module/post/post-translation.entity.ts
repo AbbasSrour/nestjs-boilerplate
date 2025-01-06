@@ -26,5 +26,5 @@ export class PostTranslationEntity extends AbstractTranslationEntity<PostTransla
     updateRule: 'cascade', // Use onUpdate instead of updateRule
     nullable: false,
   })
-  post?: PostEntity; // This does not directly create a new column but links to the existing 'post_id' column
+  post?: Type<PostEntity>; // This does not directly create a new column but links to the existing 'post_id' column
 }

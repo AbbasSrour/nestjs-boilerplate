@@ -1,11 +1,8 @@
 import { Migration } from '@mikro-orm/migrations';
 
-export class Migration20240331182212 extends Migration {
+export class Migration20241207074205 extends Migration {
 
-   up(): void {
-    this.addSql('create extension if not exists "uuid-ossp";');
-    this.addSql(`
-    create type "user_role_type" as enum ('USER', 'ADMIN');`);
+  up(): void {
     this.addSql(`
       create table "users"
       (
@@ -43,9 +40,40 @@ export class Migration20240331182212 extends Migration {
     this.addSql(`
       alter table "user_settings"
         add constraint "user_settings_user_id_foreign" foreign key ("user_id") references "users" ("id") on update cascade on delete cascade;`);
+
+    this.addSql(`
+      create table "posts"
+      (
+        "id"         uuid      not null default uuid_generate_v4(),
+        "created_at" timestamp not null default now(),
+        "updated_at" timestamp not null default now(),
+        "user_id"    uuid      not null,
+        constraint "posts_pkey" primary key ("id")
+      );`);
+
+    this.addSql(`
+      create table "post_translations"
+      (
+        "id"            uuid                                               not null default uuid_generate_v4(),
+        "created_at"    timestamp                                          not null default now(),
+        "updated_at"    timestamp                                          not null default now(),
+        "language_code" text check ("language_code" in ('en_US', 'ru_RU')) not null,
+        "title"         varchar(255)                                       not null,
+        "description"   varchar(255)                                       not null,
+        "post_id"       uuid                                               not null,
+        constraint "post_translations_pkey" primary key ("id")
+      );`);
+
+    this.addSql(`
+      alter table "posts"
+        add constraint "posts_user_id_foreign" foreign key ("user_id") references "users" ("id") on update cascade on delete cascade;`);
+
+    this.addSql(`
+      alter table "post_translations"
+        add constraint "post_translations_post_id_foreign" foreign key ("post_id") references "posts" ("id") on update cascade on delete cascade;`);
   }
 
-   down(): void {
+  down(): void {
     this.addSql(
       'alter table "user_settings" drop constraint "user_settings_user_id_foreign";',
     );
@@ -54,9 +82,12 @@ export class Migration20240331182212 extends Migration {
 
     this.addSql('drop table if exists "user_settings" cascade;');
 
-    this.addSql('drop type "user_role_type";');
+    this.addSql(
+      'alter table "post_translations" drop constraint "post_translations_post_id_foreign";',
+    );
 
-    this.addSql('drop extension if exists "uuid-ossp";')
+    this.addSql('drop table if exists "posts" cascade;');
+
+    this.addSql('drop table if exists "post_translations" cascade;');
   }
-
 }

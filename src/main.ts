@@ -3,6 +3,7 @@ import {
   HttpStatus,
   UnprocessableEntityException,
   ValidationPipe,
+  VersioningType
 } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
@@ -25,8 +26,12 @@ async function bootstrap(): Promise<NestExpressApplication> {
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
     new ExpressAdapter(),
-    { cors: true },
+    { cors: true }
   );
+
+  app.enableVersioning({
+    type: VersioningType.URI
+  });
 
   // Security
   app.enable('trust proxy');
@@ -41,14 +46,12 @@ async function bootstrap(): Promise<NestExpressApplication> {
 
   app.useGlobalFilters(
     new HttpExceptionFilter(reflector),
-    new UniqueConstraintViolationFilter(reflector),
+    new UniqueConstraintViolationFilter(reflector)
   );
 
   app.useGlobalInterceptors(
     new ClassSerializerInterceptor(reflector),
-    new TranslationInterceptor(
-      app.select(SharedModule).get(TranslationService),
-    ),
+    new TranslationInterceptor(app.select(SharedModule).get(TranslationService))
   );
 
   app.useGlobalPipes(
@@ -57,8 +60,8 @@ async function bootstrap(): Promise<NestExpressApplication> {
       errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
       transform: true,
       dismissDefaultMessages: true,
-      exceptionFactory: (errors) => new UnprocessableEntityException(errors),
-    }),
+      exceptionFactory: (errors) => new UnprocessableEntityException(errors)
+    })
   );
   const configService = app.select(SharedModule).get(ApiConfigService);
 
@@ -69,8 +72,8 @@ async function bootstrap(): Promise<NestExpressApplication> {
       transport: Transport.NATS,
       options: {
         url: `nats://${natsConfig.host}:${natsConfig.port}`,
-        queue: 'main_service',
-      },
+        queue: 'main_service'
+      }
     });
   }
 

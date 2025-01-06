@@ -1,4 +1,3 @@
-import { CreateRequestContext } from '@mikro-orm/core';
 import {
   Body,
   Controller,
@@ -7,7 +6,7 @@ import {
   HttpStatus,
   Post,
   UploadedFile,
-  Version,
+  Version
 } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
@@ -15,7 +14,7 @@ import { RoleType } from '../../constant/role-type';
 import { Auth } from '../../decorator/auth.decorator';
 import { AuthUser } from '../../decorator/auth-user.decorator';
 import { ApiFile } from '../../decorator/field/api-file.decorator';
-import { IFile } from '../../interface';
+import { type IFile } from '../../interface';
 import { UserDto } from '../user/dto/user.dto';
 import { UserEntity } from '../user/entity/user.entity';
 import { UserService } from '../user/user.service';
@@ -29,44 +28,46 @@ import { UserRegisterDto } from './dto/user-register.dto';
 export class AuthController {
   constructor(
     private userService: UserService,
-    private authService: AuthService,
+    private authService: AuthService
   ) {}
 
+  @Version('1')
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({
     type: LoginPayloadDto,
-    description: 'User info with access token',
+    description: 'User info with access token'
   })
   async userLogin(
-    @Body() userLoginDto: UserLoginDto,
+    @Body() userLoginDto: UserLoginDto
   ): Promise<LoginPayloadDto> {
     const userEntity = await this.authService.validateUser(userLoginDto);
 
     const token = await this.authService.createAccessToken({
       userId: userEntity.id,
-      role: userEntity.role,
+      role: userEntity.role
     });
 
     return new LoginPayloadDto(userEntity.toDto(), token);
   }
 
+  @Version('1')
   @Post('register')
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ type: UserDto, description: 'Successfully Registered' })
   @ApiFile({ name: 'avatar' })
-  @CreateRequestContext()
+  // @CreateRequestContext()
   async userRegister(
     @Body() userRegisterDto: UserRegisterDto,
-    @UploadedFile() file?: IFile,
+    @UploadedFile() file?: IFile
   ): Promise<UserDto> {
     const createdUser = await this.userService.createUser(
       userRegisterDto,
-      file,
+      file
     );
 
     return createdUser.toDto({
-      isActive: true,
+      isActive: true
     });
   }
 

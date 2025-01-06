@@ -20,8 +20,9 @@ import {
   QueryResolver,
 } from 'nestjs-i18n';
 
+import { ConsoleModule } from './console/console.module';
 import { AuthModule } from './module/auth/auth.module';
-import { ChatbotModule } from './module/chatbot/chatbot.module.ts';
+// import { ChatbotModule } from './module/chatbot/chatbot.module';
 import { HealthCheckerModule } from './module/health-checker/health-checker.module';
 // import { PostModule } from './module/post/post.module';
 import { UserModule } from './module/user/user.module';
@@ -56,9 +57,13 @@ import { SharedModule } from './packages/shared/shared.module';
       useFactory: (configService: ApiConfigService) => ({
         fallbackLanguage: configService.fallbackLanguage,
         loaderOptions: {
-          path: path.join(__dirname, '/i18n/'),
+          path: path.join(import.meta.dirname, 'i18n/'),
+          watch: configService.isDevelopment,
         },
-        typesOutputPath: path.join(__dirname, './generated/i18n.generated.ts'),
+        typesOutputPath: path.join(
+          import.meta.dirname,
+          './generated/i18n.generated',
+        ),
       }),
       resolvers: [
         { use: QueryResolver, options: ['lang'] },
@@ -68,9 +73,10 @@ import { SharedModule } from './packages/shared/shared.module';
       imports: [SharedModule],
       inject: [ApiConfigService],
     }),
+    ConsoleModule,
     AuthModule,
     UserModule,
-    ChatbotModule,
+    // ChatbotModule,
     // PostModule,
     HealthCheckerModule,
   ],
@@ -83,9 +89,9 @@ export class AppModule implements NestModule, OnModuleInit {
     await this.orm.getMigrator().up();
   }
 
-  // for some reason the auth middlewares in profile and article modules are fired before the request context one,
-  // so they would fail to access contextual EM. by registering the middleware directly in AppModule, we can get
-  // around this issue
+  // For some reason, the auth middlewares in profile and article modules are fired before the request context one,
+  // so they would fail to access contextual EM.
+  // By registering the middleware directly in AppModule, we can get around this issue.
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(MikroOrmMiddleware).forRoutes('*');
   }

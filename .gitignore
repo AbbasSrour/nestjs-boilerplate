@@ -85,3 +85,7 @@ temp
 .history
 /pnpm-lock.yaml
 *.env
+/src/metadata.ts
+/tsconfig.build.tsbuildinfo
+/src/generated/i18n.generated
+/tsconfig.tsbuildinfo
