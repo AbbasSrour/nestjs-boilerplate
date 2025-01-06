@@ -1,7 +1,7 @@
 import { ClsServiceManager } from 'nestjs-cls';
 
 import type { LanguageCode } from '../constant/language-code';
-import type { UserEntity } from '../module/user/entity/user.entity.ts';
+import type { UserEntity } from '../module/user/entity/user.entity';
 
 export class ContextProvider {
   private static readonly nameSpace = 'request';

@@ -6,9 +6,9 @@ import {
   Property,
 } from '@mikro-orm/core';
 
-import { AbstractEntity } from '../../abstract/entity/abstract.entity.ts';
-import { UseDto } from '../../decorator/use-dto.decorator.ts';
-import { UserEntity } from '../user/entity/user.entity.ts';
+import { AbstractEntity } from '../../abstract/entity/abstract.entity';
+import { UseDto } from '../../decorator/use-dto.decorator';
+import { UserEntity } from '../user/entity/user.entity';
 import { PostDto } from './dtos/post.dto';
 import { PostTranslationEntity } from './post-translation.entity';
 

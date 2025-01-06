@@ -1,8 +1,9 @@
-import { type Collection, Opt, PrimaryKey, Property } from '@mikro-orm/core';
+import type { Collection, Opt } from '@mikro-orm/core';
+import { PrimaryKey, Property } from '@mikro-orm/core';
 
-import { type Constructor } from '../../types';
-import { type AbstractDto } from '../dto/abstract.dto';
-import { type AbstractTranslationEntity } from './abstract-translation.entity';
+import type { Constructor } from '../../types';
+import type { AbstractDto } from '../dto/abstract.dto';
+import type { AbstractTranslationEntity } from './abstract-translation.entity';
 
 /**
  * Abstract Entity

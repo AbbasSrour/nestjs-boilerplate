@@ -1,11 +1,11 @@
-import { AbstractDto } from '../../../abstract/dto/abstract.dto.ts';
-import { RoleType } from '../../../constant/role-type.ts';
-import { BooleanFieldOptional } from '../../../decorator/field/boolean-field.decorator.ts';
-import { EmailFieldOptional } from '../../../decorator/field/email-field.decorator.ts';
-import { EnumFieldOptional } from '../../../decorator/field/enum-field.decorator.ts';
-import { PhoneFieldOptional } from '../../../decorator/field/phone-field.decorator.ts';
-import { StringFieldOptional } from '../../../decorator/field/string-field.decorator.ts';
-import type { UserEntity } from '../entity/user.entity.ts';
+import { AbstractDto } from '../../../abstract/dto/abstract.dto';
+import { RoleType } from '../../../constant/role-type';
+import { BooleanFieldOptional } from '../../../decorator/field/boolean-field.decorator';
+import { EmailFieldOptional } from '../../../decorator/field/email-field.decorator';
+import { EnumFieldOptional } from '../../../decorator/field/enum-field.decorator';
+import { PhoneFieldOptional } from '../../../decorator/field/phone-field.decorator';
+import { StringFieldOptional } from '../../../decorator/field/string-field.decorator';
+import type { UserEntity } from '../entity/user.entity';
 
 // TODO, remove this class and use constructor's second argument's type
 export type UserDtoOptions = Partial<{ isActive: boolean }>;

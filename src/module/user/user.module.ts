@@ -1,10 +1,10 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 
-import { CreateSettingsHandler } from './command/create-settings.command.ts';
-import { UserEntity } from './entity/user.entity.ts';
-import { UserSettingsEntity } from './entity/user-settings.entity.ts';
-import { UserSubscriber } from './subscriber/user.subscriber.ts';
+import { CreateSettingsHandler } from './command/create-settings.command';
+import { UserEntity } from './entity/user.entity';
+import { UserSettingsEntity } from './entity/user-settings.entity';
+import { UserSubscriber } from './subscriber/user.subscriber';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 

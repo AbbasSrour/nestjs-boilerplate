@@ -14,12 +14,12 @@ import morgan from 'morgan';
 
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './filter/bad-request.filter';
-import { UniqueConstraintViolationFilter } from './filter/unique-constraint.filter.ts';
+import { UniqueConstraintViolationFilter } from './filter/unique-constraint.filter';
 import { TranslationInterceptor } from './interceptor/translation-interceptor.service';
-import { ApiConfigService } from './packages/shared/services/api-config.service.ts';
+import { ApiConfigService } from './packages/shared/services/api-config.service';
 import { TranslationService } from './packages/shared/services/translation.service';
 import { SharedModule } from './packages/shared/shared.module';
-import { setupSwagger } from './swagger-config.ts';
+import { setupSwagger } from './swagger-config';
 
 async function bootstrap(): Promise<NestExpressApplication> {
   const app = await NestFactory.create<NestExpressApplication>(

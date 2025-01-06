@@ -6,7 +6,7 @@ import type {
 import { EntityRepository } from '@mikro-orm/postgresql';
 
 import { PageMetaDto } from './dto/page-meta.dto';
-import type { PageOptionsDto } from './dto/page-options.dto.ts';
+import type { PageOptionsDto } from './dto/page-options.dto';
 
 export class ExtendedEntityRepository<
   // eslint-disable-next-line @typescript-eslint/ban-types

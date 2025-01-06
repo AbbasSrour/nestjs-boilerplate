@@ -5,7 +5,7 @@ import type { Request } from 'express';
 import _ from 'lodash';
 
 import type { RoleType } from '../constant/role-type';
-import type { UserEntity } from '../module/user/entity/user.entity.ts';
+import type { UserEntity } from '../module/user/entity/user.entity';
 
 @Injectable()
 export class RolesGuard implements CanActivate {

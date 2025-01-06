@@ -7,8 +7,8 @@ import { Injectable } from '@nestjs/common';
 import type { Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
-import { AbstractDto } from '../abstract/dto/abstract.dto.ts';
-import { TranslationService } from '../packages/shared/services/translation.service.ts';
+import { AbstractDto } from '../abstract/dto/abstract.dto';
+import { TranslationService } from '../packages/shared/services/translation.service';
 
 // FIXME: add implementation
 @Injectable()

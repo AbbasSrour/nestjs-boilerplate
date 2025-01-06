@@ -1,7 +1,7 @@
-import { EmailField } from '../../../decorator/field/email-field.decorator.ts';
-import { PasswordField } from '../../../decorator/field/password-field.decorator.ts';
-import { PhoneFieldOptional } from '../../../decorator/field/phone-field.decorator.ts';
-import { StringField } from '../../../decorator/field/string-field.decorator.ts';
+import { EmailField } from '../../../decorator/field/email-field.decorator';
+import { PasswordField } from '../../../decorator/field/password-field.decorator';
+import { PhoneFieldOptional } from '../../../decorator/field/phone-field.decorator';
+import { StringField } from '../../../decorator/field/string-field.decorator';
 
 export class UserRegisterDto {
   @StringField()

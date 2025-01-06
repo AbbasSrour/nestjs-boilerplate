@@ -12,7 +12,7 @@ import { PageMetaDto } from './abstract/dto/page-meta.dto';
 import type { PageOptionsDto } from './abstract/dto/page-options.dto';
 import type { AbstractEntity } from './abstract/entity/abstract.entity';
 import type { LanguageCode } from './constant/language-code';
-import type { KeyOfType } from './types.ts';
+import type { KeyOfType } from './types';
 
 declare global {
   export type Uuid = string & { _uuidBrand: undefined };

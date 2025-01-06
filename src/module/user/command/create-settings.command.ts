@@ -3,8 +3,8 @@ import { EntityRepository } from '@mikro-orm/postgresql';
 import type { ICommand, ICommandHandler } from '@nestjs/cqrs';
 import { CommandHandler } from '@nestjs/cqrs';
 
-import type { CreateSettingsDto } from '../dto/create-settings.dto.ts';
-import { UserSettingsEntity } from '../entity/user-settings.entity.ts';
+import type { CreateSettingsDto } from '../dto/create-settings.dto';
+import { UserSettingsEntity } from '../entity/user-settings.entity';
 
 export class CreateSettingsCommand implements ICommand {
   constructor(

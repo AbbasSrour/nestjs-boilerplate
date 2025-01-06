@@ -1,12 +1,12 @@
 import { Entity, Enum, OneToOne, Property } from '@mikro-orm/core';
 
-import { AbstractEntity } from '../../../abstract/entity/abstract.entity.ts';
-import { RoleType } from '../../../constant/role-type.ts';
-import { UseDto } from '../../../decorator/use-dto.decorator.ts';
-// import { PostEntity } from '../../post/post.entity.ts';
-import type { UserDtoOptions } from '../dto/user.dto.ts';
-import { UserDto } from '../dto/user.dto.ts';
-import { UserSettingsEntity } from './user-settings.entity.ts';
+import { AbstractEntity } from '../../../abstract/entity/abstract.entity';
+import { RoleType } from '../../../constant/role-type';
+import { UseDto } from '../../../decorator/use-dto.decorator';
+import type { Type } from '../../../interface/type';
+import type { UserDtoOptions } from '../dto/user.dto';
+import { UserDto } from '../dto/user.dto';
+import { UserSettingsEntity } from './user-settings.entity';
 
 @Entity({ tableName: 'users' })
 @UseDto(() => UserDto)

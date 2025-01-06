@@ -1,10 +1,10 @@
 import { Entity, OneToOne, Property } from '@mikro-orm/core';
 
-import { AbstractEntity } from '../../../abstract/entity/abstract.entity.ts';
-import { UseDto } from '../../../decorator/use-dto.decorator.ts';
-import type { UserDto, UserDtoOptions } from '../dto/user.dto.ts';
-import { UserSettingsDto } from '../dto/user-settings.dto.ts';
-import { UserEntity } from './user.entity.ts';
+import { AbstractEntity } from '../../../abstract/entity/abstract.entity';
+import { UseDto } from '../../../decorator/use-dto.decorator';
+import { UserSettingsDto, UserSettingsDtoOptions } from '../dto/user-settings.dto';
+import type { Type } from '@nestjs/common';
+import { UserEntity } from './user.entity';
 
 @Entity({ tableName: 'user_settings' })
 @UseDto(() => UserSettingsDto)
