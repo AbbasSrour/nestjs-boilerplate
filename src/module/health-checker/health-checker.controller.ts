@@ -13,9 +13,9 @@ import { ApiTags } from '@nestjs/swagger';
 @Controller('health')
 export class HealthCheckerController {
   constructor(
-    private healthCheckService: HealthCheckService,
-    private ormIndicator: MikroOrmHealthIndicator,
-    private serviceIndicator: ServiceHealthIndicator,
+    private readonly healthCheckService: HealthCheckService,
+    private readonly ormIndicator: MikroOrmHealthIndicator,
+    private readonly serviceIndicator: ServiceHealthIndicator,
   ) {}
 
   @Get()
