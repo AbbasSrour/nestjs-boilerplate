@@ -1,7 +1,8 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars, @typescript-eslint/naming-convention */
 // import 'source-map-support/register';
 
 import type { QBFilterQuery } from '@mikro-orm/core';
+import { Collection } from '@mikro-orm/core';
 import type { JoinType, SelectQueryBuilder } from '@mikro-orm/postgresql';
 import { QueryBuilder } from '@mikro-orm/postgresql';
 import _ from 'lodash';
@@ -41,7 +42,9 @@ Array.prototype.toDtos = function <
   Dto extends AbstractDto,
 >(options?: unknown): Dto[] {
   return _.compact(
-    _.map<Entity, Dto>(this as Entity[], (item) => item.toDto(options as never)),
+    _.map<Entity, Dto>(this as Entity[], (item) =>
+      item.toDto(options as never),
+    ),
   );
 };
 
@@ -57,8 +60,28 @@ Array.prototype.toPageDto = function (
   return new PageDto(this.toDtos(options), pageMetaDto);
 };
 
+declare module '@mikro-orm/core' {
+  interface Collection<T> {
+    toDtos<Dto extends AbstractDto>(
+      this: Collection<T>,
+      options?: unknown,
+    ): Dto[];
+  }
+}
+
+Collection.prototype.toDtos = function <T extends AbstractDto>(
+  this: Collection<T>,
+  options?: unknown,
+) {
+  if (!this.isInitialized()) {
+    return [];
+  }
+
+  return this.getItems().toDtos(options);
+};
+
 declare module '@mikro-orm/postgresql' {
-  interface QueryBuilder<Entity extends object> {
+  interface QueryBuilder<Entity> {
     searchByString(
       q: string,
       columnNames: string[],
