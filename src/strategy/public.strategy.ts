@@ -6,7 +6,7 @@ import { Strategy } from 'passport';
 export class PublicStrategy extends PassportStrategy(Strategy, 'public') {
   authenticate(): void {
     // TODO: Fix this
-    // @ts-expect-error
+    // @ts-ignore
     return this.success({ [Symbol.for('isPublic')]: true });
   }
 }

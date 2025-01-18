@@ -9,7 +9,7 @@ import {
   Post,
   Query,
   ValidationPipe,
-  Version
+  Version,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
@@ -21,19 +21,19 @@ import { AuthUser } from '../../decorator/auth-user.decorator';
 import { UseLanguageInterceptor } from '../../interceptor/language-interceptor.service';
 import { TranslationService } from '../../packages/shared/services/translation.service';
 import { UUIDParam } from '../../pipe/uuid-param.pipe';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { UserDto } from './dto/user.dto';
 import { UsersPageOptionsDto } from './dto/users-page-options.dto';
 import { UserEntity } from './entity/user.entity';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 @ApiTags('Users')
 export class UserController {
   constructor(
     private userService: UserService,
-    private readonly translationService: TranslationService
+    private readonly translationService: TranslationService,
   ) {}
 
   @Version('1')
@@ -43,11 +43,11 @@ export class UserController {
   @UseLanguageInterceptor()
   async admin(@AuthUser() user: UserEntity) {
     const translation = await this.translationService.translate(
-      'admin.keywords.admin'
+      'admin.keywords.admin',
     );
 
     return {
-      text: `${translation} ${user.firstName}`
+      text: `${translation} ${user.firstName}`,
     };
   }
 
@@ -57,11 +57,11 @@ export class UserController {
   @HttpCode(HttpStatus.OK)
   @ApiPageOkResponse({
     description: 'Get users list',
-    type: PageDto
+    type: PageDto,
   })
   getUsers(
     @Query(new ValidationPipe({ transform: true }))
-    pageOptionsDto: UsersPageOptionsDto
+    pageOptionsDto: UsersPageOptionsDto,
   ): Promise<PageDto<UserDto>> {
     return this.userService.getUsers(pageOptionsDto);
   }
@@ -73,7 +73,7 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Create user',
-    type: UserDto
+    type: UserDto,
   })
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.userService.createUser(createUserDto);
@@ -86,7 +86,7 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Get user by id',
-    type: UserDto
+    type: UserDto,
   })
   getUser(@UUIDParam('id') userId: Uuid): Promise<UserDto> {
     return this.userService.getUser(userId);
@@ -99,11 +99,11 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Update user',
-    type: UserDto
+    type: UserDto,
   })
   updateUser(
     @UUIDParam('id') userId: Uuid,
-    @Body() updateUserDto: UpdateUserDto
+    @Body() updateUserDto: UpdateUserDto,
   ) {
     return this.userService.updateUser(userId, updateUserDto);
   }
@@ -115,7 +115,7 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
     description: 'Delete user',
-    type: undefined
+    type: undefined,
   })
   deleteUser(@UUIDParam('id') userId: Uuid) {
     return this.userService.deleteUser(userId);
