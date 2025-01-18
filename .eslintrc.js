@@ -82,7 +82,7 @@ module.exports = {
     ],
     '@typescript-eslint/adjacent-overload-signatures': 'error',
     'max-params': ['error', 7],
-    '@typescript-eslint/array-type': ['error', {default: 'array-simple'}],
+    '@typescript-eslint/array-type': ['off', { default: 'array-simple'}],
     '@typescript-eslint/ban-types': [
       'error',
       {
