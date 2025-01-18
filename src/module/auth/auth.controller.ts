@@ -23,8 +23,8 @@ import { LoginPayloadDto } from './dto/login-payload.dto';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
 
+@ApiTags('Auth')
 @Controller('auth')
-@ApiTags('auth')
 export class AuthController {
   constructor(
     private userService: UserService,

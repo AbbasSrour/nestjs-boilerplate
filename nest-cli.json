@@ -19,6 +19,10 @@
       {
         "include": "i18n/**/*",
         "watchAssets": true
+      },
+      {
+        "include": "openapi-description.txt",
+        "watchAssets": true
       }
     ]
   },
