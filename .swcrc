@@ -5,7 +5,7 @@
   "sourceMaps": true,
   "isModule": true,
   "module": {
-    "type": "nodenext",
+    "type": "commonjs",
     "resolveFully": true
   },
   "jsc": {

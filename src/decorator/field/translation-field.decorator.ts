@@ -1,5 +1,5 @@
-import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger';
-import { IFieldOptions } from './field-options';
+import { ApiProperty, type ApiPropertyOptions } from '@nestjs/swagger';
+import type { IFieldOptions } from './field-options';
 import {
   ArrayMaxSize,
   ArrayMinSize,
@@ -9,7 +9,7 @@ import {
 import { supportedLanguageCount } from '../../constant/language-code';
 import { Type } from 'class-transformer';
 import { applyDecorators } from '@nestjs/common';
-import { RequireField } from '../../types';
+import type { RequireField } from '../../types';
 import { IsUndefinable } from '../validator/is-undefinable.decorator';
 import { IsNullable } from '../validator/is-nullable.decorator';
 

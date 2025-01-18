@@ -10,7 +10,7 @@ import { type IFieldOptions } from './field-options';
 
 export function ApiUUIDProperty(
   options: Omit<ApiPropertyOptions, 'type' | 'format'> &
-    Partial<{ each: boolean }> = {},
+    Partial<{ each: boolean }> = {}
 ): PropertyDecorator {
   return ApiProperty({
     type: options.each ? [String] : String,

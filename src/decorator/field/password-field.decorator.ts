@@ -1,5 +1,8 @@
-import { ApiPropertyOptions } from '@nestjs/swagger';
-import { IStringFieldOptions, StringField } from './string-field.decorator';
+import type { ApiPropertyOptions } from '@nestjs/swagger';
+import {
+  type IStringFieldOptions,
+  StringField,
+} from './string-field.decorator';
 import { NotEquals } from 'class-validator';
 import { applyDecorators } from '@nestjs/common';
 import { IsPassword } from '../validator/is-password.decorator';

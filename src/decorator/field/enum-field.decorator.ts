@@ -21,10 +21,10 @@ export function ApiEnumProperty<TEnum extends ApiPropertyEnumType>(
   const enumValue = getEnum();
 
   return ApiProperty({
-    type: 'enum',
     // throw error during the compilation of swagger
     // isArray: options.each,
     enum: enumValue,
+    type: 'enum',
     enumName: GeneratorProvider.getVariableName(getEnum),
     ...options,
   });

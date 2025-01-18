@@ -1,5 +1,8 @@
-import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger';
-import { IStringFieldOptions, StringField } from './string-field.decorator';
+import { ApiProperty, type ApiPropertyOptions } from '@nestjs/swagger';
+import {
+  type IStringFieldOptions,
+  StringField,
+} from './string-field.decorator';
 import { NotEquals } from 'class-validator';
 import { applyDecorators } from '@nestjs/common';
 import { IsTmpKey } from '../validator/is-tmpkey.decorator';

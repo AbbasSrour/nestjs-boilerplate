@@ -1,11 +1,16 @@
 {
   "compilerOptions": {
+    "baseUrl": "./src",
     "rootDir": "src",
-    "module": "ES2022",
+    "outDir": "./dist",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "target": "ESNext",
     "declaration": true,
     "noImplicitAny": false,
-    "lib": ["es2022"],
-    "moduleResolution": "Node",
+    "lib": [
+      "es2022"
+    ],
     "removeComments": true,
     "noLib": false,
     "importHelpers": true,
@@ -16,10 +21,7 @@
     "esModuleInterop": true,
     "allowUnreachableCode": false,
     "forceConsistentCasingInFileNames": true,
-    "target": "ES2022",
     "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./src",
     "incremental": true,
     "strictNullChecks": true,
     "skipLibCheck": true,
@@ -36,6 +38,8 @@
     "noUncheckedIndexedAccess": true,
     "noFallthroughCasesInSwitch": true,
     "strictPropertyInitialization": true,
+    "verbatimModuleSyntax": true,
+    "preserveWatchOutput": false
     //    "exactOptionalPropertyTypes": true,
     //    "noPropertyAccessFromIndexSignature": true,
   },

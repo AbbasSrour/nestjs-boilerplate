@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger';
+import { ApiProperty, type ApiPropertyOptions } from '@nestjs/swagger';
 import { IsBoolean, NotEquals } from 'class-validator';
 import { applyDecorators } from '@nestjs/common';
 import { type IFieldOptions } from './field-options';

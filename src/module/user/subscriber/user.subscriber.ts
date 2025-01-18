@@ -1,5 +1,5 @@
 import type { EventArgs, FlushEventArgs } from '@mikro-orm/core';
-import { EntityManager, EventSubscriber } from '@mikro-orm/postgresql';
+import { EntityManager, type EventSubscriber } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
 
 import { GeneratorProvider } from '../../../provider/generator.provider';

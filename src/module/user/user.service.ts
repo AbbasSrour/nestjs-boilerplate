@@ -1,4 +1,4 @@
-import { FilterQuery, wrap } from '@mikro-orm/core';
+import { type FilterQuery, wrap } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';

@@ -57,11 +57,11 @@ import { SharedModule } from './packages/shared/shared.module';
       useFactory: (configService: ApiConfigService) => ({
         fallbackLanguage: configService.fallbackLanguage,
         loaderOptions: {
-          path: path.join(import.meta.dirname, 'i18n/'),
+          path: path.join(__dirname, 'i18n/'),
           watch: configService.isDevelopment,
         },
         typesOutputPath: path.join(
-          import.meta.dirname,
+          __dirname,
           './generated/i18n.generated',
         ),
       }),

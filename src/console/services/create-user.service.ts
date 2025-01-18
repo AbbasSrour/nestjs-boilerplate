@@ -56,6 +56,7 @@ export class CreateUserCommand extends CommandRunner {
       },
     ];
 
+    // @ts-ignore
     const answers = await inquirer.prompt(questions);
     user.firstName = answers.firstName;
     user.lastName = answers.lastName;
