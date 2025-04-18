@@ -1,6 +1,6 @@
-import { StringFieldOptional } from '../../../decorator/field/string-field.decorator';
-import { EmailFieldOptional } from '../../../decorator/field/email-field.decorator';
-import { PhoneFieldOptional } from '../../../decorator/field/phone-field.decorator';
+import { EmailFieldOptional } from '@decorator/field/email-field.decorator';
+import { PhoneFieldOptional } from '@decorator/field/phone-field.decorator';
+import { StringFieldOptional } from '@decorator/field/string-field.decorator';
 
 export class UpdateUserDto {
   @StringFieldOptional()

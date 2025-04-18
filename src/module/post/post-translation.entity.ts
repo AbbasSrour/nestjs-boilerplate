@@ -1,8 +1,8 @@
 import { Entity, ManyToOne, Property } from '@mikro-orm/core';
 
-import { AbstractTranslationEntity } from '../../abstract/entity/abstract-translation.entity';
-import { UseDto } from '../../decorator/use-dto.decorator';
-import type { Type } from '../../interface/type';
+import { AbstractTranslationEntity } from '@abstract/entity/abstract-translation.entity';
+import { UseDto } from '@decorator/use-dto.decorator';
+import type { Type } from '@interface/type';
 import { PostTranslationDto } from './dtos/post-translation.dto';
 import { PostEntity } from './post.entity';
 

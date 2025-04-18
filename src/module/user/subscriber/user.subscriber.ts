@@ -1,8 +1,9 @@
 import type { EventArgs, FlushEventArgs } from '@mikro-orm/core';
-import { EntityManager, type EventSubscriber } from '@mikro-orm/postgresql';
+import { EntityManager } from '@mikro-orm/postgresql';
+import type { EventSubscriber } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
 
-import { GeneratorProvider } from '../../../provider/generator.provider';
+import { GeneratorProvider } from '@provider/generator.provider';
 import { UserEntity } from '../entity/user.entity';
 
 @Injectable()
@@ -31,8 +32,11 @@ export class UserSubscriber implements EventSubscriber<UserEntity> {
   beforeUpdate(event: EventArgs<UserEntity>): void {
     const entity = event.entity;
 
-    if (entity.password !== event.changeSet?.entity.password) {
-      entity.password = GeneratorProvider.generateHash(entity.password!);
+    if (
+      entity.password &&
+      entity.password !== event.changeSet?.entity.password
+    ) {
+      entity.password = GeneratorProvider.generateHash(entity.password);
     }
   }
 }

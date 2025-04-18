@@ -6,11 +6,11 @@ import { IsUUID, NotEquals } from 'class-validator';
 import { ToArray } from '../transformer/to-array.decorator';
 import { IsNullable } from '../validator/is-nullable.decorator';
 import { IsUndefinable } from '../validator/is-undefinable.decorator';
-import { type IFieldOptions } from './field-options';
+import type { IFieldOptions } from './field-options';
 
 export function ApiUUIDProperty(
   options: Omit<ApiPropertyOptions, 'type' | 'format'> &
-    Partial<{ each: boolean }> = {}
+    Partial<{ each: boolean }> = {},
 ): PropertyDecorator {
   return ApiProperty({
     type: options.each ? [String] : String,

@@ -1,7 +1,7 @@
 import type { Collection, Opt } from '@mikro-orm/core';
 import { PrimaryKey, Property } from '@mikro-orm/core';
 
-import type { Constructor } from '../../types';
+import type { Constructor } from '@src/types';
 import type { AbstractDto } from '../dto/abstract.dto';
 import type { AbstractTranslationEntity } from './abstract-translation.entity';
 
@@ -11,13 +11,13 @@ import type { AbstractTranslationEntity } from './abstract-translation.entity';
  * @author Abbas Srour <abbas.mj.srour@gmail.com>
  *
  * @description This class is an abstract class for all entities.
- * It takes two generic types: DTO for data transfer object and O for page options.
+ * It takes two generic types: DTO for a data transfer object and O for page options.
  * It takes care of the id, createdAt, updatedAt fields and translations.
  */
 export abstract class AbstractEntity<
   DTO extends AbstractDto = AbstractDto,
-  O = any,
-  Optional = any,
+  O = unknown,
+  Optional = unknown,
 > {
   @PrimaryKey({ type: 'uuid', defaultRaw: 'uuid_generate_v4()' })
   id!: Uuid;

@@ -1,5 +1,5 @@
 import { applyDecorators } from '@nestjs/common';
-import { type ApiPropertyOptions } from '@nestjs/swagger';
+import type { ApiPropertyOptions } from '@nestjs/swagger';
 import { IsUrl, NotEquals } from 'class-validator';
 
 import { IsNullable } from '../validator/is-nullable.decorator';
@@ -27,7 +27,6 @@ export function URLFieldOptional(
   options: Omit<ApiPropertyOptions, 'type'> & IStringFieldOptions = {},
 ): PropertyDecorator {
   return applyDecorators(
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     IsUndefinable(),
     URLField({ required: false, ...options }),
   );

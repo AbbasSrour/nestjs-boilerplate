@@ -6,12 +6,12 @@ import {
   Property,
 } from '@mikro-orm/core';
 
-import { AbstractEntity } from '../../abstract/entity/abstract.entity';
-import { UseDto } from '../../decorator/use-dto.decorator';
+import { AbstractEntity } from '@abstract/entity/abstract.entity';
+import { UseDto } from '@decorator/use-dto.decorator';
+import type { Type } from '@interface/type';
 import { UserEntity } from '../user/entity/user.entity';
 import { PostDto } from './dtos/post.dto';
 import { PostTranslationEntity } from './post-translation.entity';
-import type { Type } from 'interface/type';
 
 @Entity({ tableName: 'posts' })
 @UseDto(() => PostDto)

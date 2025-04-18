@@ -13,16 +13,16 @@ import compression from 'compression';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
+import { HttpExceptionFilter } from '@filter/bad-request.filter';
+import { UniqueConstraintViolationFilter } from '@filter/unique-constraint.filter';
+import { TranslationInterceptor } from '@interceptor/translation-interceptor.service';
+import { ApiConfigService } from '@package/shared/services/api-config.service';
+import { TranslationService } from '@package/shared/services/translation.service';
+import { SharedModule } from '@package/shared/shared.module';
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './filter/bad-request.filter';
-import { UniqueConstraintViolationFilter } from './filter/unique-constraint.filter';
-import { TranslationInterceptor } from './interceptor/translation-interceptor.service';
-import { ApiConfigService } from './packages/shared/services/api-config.service';
-import { TranslationService } from './packages/shared/services/translation.service';
-import { SharedModule } from './packages/shared/shared.module';
 import { setupOpenapi } from './openapi-config';
 
-async function bootstrap(): Promise<NestExpressApplication> {
+async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
     new ExpressAdapter(),
@@ -103,9 +103,6 @@ async function bootstrap(): Promise<NestExpressApplication> {
   await app.listen(port);
 
   console.info(`server running on ${await app.getUrl()}`);
-
-  return app;
 }
 
-// eslint-disable-next-line
 void bootstrap();

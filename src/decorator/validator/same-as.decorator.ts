@@ -1,10 +1,10 @@
-import { registerDecorator, type ValidationOptions } from 'class-validator';
+import { type ValidationOptions, registerDecorator } from 'class-validator';
 
 export function SameAs(
   property: string,
   validationOptions?: ValidationOptions,
 ): PropertyDecorator {
-  return function (object, propertyName: string | symbol) {
+  return (object, propertyName: string | symbol) => {
     registerDecorator({
       name: 'sameAs',
       target: object.constructor,
@@ -13,7 +13,7 @@ export function SameAs(
       constraints: [property],
       validator: {
         validate(value, args) {
-          const [relatedPropertyName] = args!.constraints;
+          const [relatedPropertyName] = args?.constraints || [];
 
           return args?.object[relatedPropertyName] === value;
         },

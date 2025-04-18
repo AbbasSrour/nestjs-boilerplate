@@ -2,9 +2,9 @@ import { S3 } from '@aws-sdk/client-s3';
 import { Injectable } from '@nestjs/common';
 import mime from 'mime-types';
 
-import type { IFile } from '../../../interface';
-import { ApiConfigService } from './api-config.service';
-import { GeneratorService } from './generator.service';
+import type { IFile } from '@interface/IFile';
+import type { ApiConfigService } from './api-config.service';
+import type { GeneratorService } from './generator.service';
 
 @Injectable()
 export class AwsS3Service {
@@ -26,7 +26,7 @@ export class AwsS3Service {
     const fileName = this.generatorService.fileName(
       mime.extension(file.mimetype) as string,
     );
-    const key = 'images/' + fileName;
+    const key = `images/${fileName}`;
     await this.s3.putObject({
       Bucket: this.configService.awsS3Config.bucketName,
       Body: file.buffer,

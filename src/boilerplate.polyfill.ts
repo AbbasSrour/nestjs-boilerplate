@@ -1,24 +1,23 @@
-/* eslint-disable no-unused-vars, @typescript-eslint/naming-convention */
-// import 'source-map-support/register';
+import 'source-map-support/register';
 
 import type { QBFilterQuery } from '@mikro-orm/core';
 import { Collection } from '@mikro-orm/core';
 import type { JoinType, SelectQueryBuilder } from '@mikro-orm/postgresql';
 import { QueryBuilder } from '@mikro-orm/postgresql';
-import _ from 'lodash';
 
-import type { AbstractDto } from './abstract/dto/abstract.dto';
-import type { CreateTranslationDto } from './abstract/dto/create-translation.dto';
-import { PageDto } from './abstract/dto/page.dto';
-import { PageMetaDto } from './abstract/dto/page-meta.dto';
-import type { PageOptionsDto } from './abstract/dto/page-options.dto';
-import type { AbstractEntity } from './abstract/entity/abstract.entity';
-import type { LanguageCode } from './constant/language-code';
+import type { AbstractDto } from '@abstract/dto/abstract.dto';
+import type { CreateTranslationDto } from '@abstract/dto/create-translation.dto';
+import { PageMetaDto } from '@abstract/dto/page-meta.dto';
+import type { PageOptionsDto } from '@abstract/dto/page-options.dto';
+import { PageDto } from '@abstract/dto/page.dto';
+import type { AbstractEntity } from '@abstract/entity/abstract.entity';
+import type { LanguageCode } from '@constant/language-code';
+import { compact, map } from 'lodash';
 import type { KeyOfType } from './types';
 
 declare global {
   export type Uuid = string & { _uuidBrand: undefined };
-  export type Todo = any & { _todoBrand: undefined };
+  export type Todo = unknown & { _todoBrand: undefined };
 
   interface Array<T> {
     toDtos<Dto extends AbstractDto>(this: T[], options?: unknown): Dto[];
@@ -41,16 +40,16 @@ Array.prototype.toDtos = function <
   Entity extends AbstractEntity<Dto>,
   Dto extends AbstractDto,
 >(options?: unknown): Dto[] {
-  return _.compact(
-    _.map<Entity, Dto>(this as Entity[], (item) =>
-      item.toDto(options as never),
-    ),
+  return compact(
+    map<Entity, Dto>(this as Entity[], (item) => item.toDto(options as never)),
   );
 };
 
 Array.prototype.getByLanguage = function (languageCode: LanguageCode): string {
-  return this.find((translation) => languageCode === translation.languageCode)!
-    .text;
+  return (
+    this.find((translation) => languageCode === translation.languageCode)
+      ?.text || ''
+  );
 };
 
 Array.prototype.toPageDto = function (

@@ -1,9 +1,9 @@
+import { EmailField } from '@decorator/field/email-field.decorator';
+import { PasswordField } from '@decorator/field/password-field.decorator';
 import {
   StringField,
-  StringFieldOptional
-} from '../../../decorator/field/string-field.decorator';
-import { EmailField } from '../../../decorator/field/email-field.decorator';
-import { PasswordField } from '../../../decorator/field/password-field.decorator';
+  StringFieldOptional,
+} from '@decorator/field/string-field.decorator';
 
 export class CreateUserDto {
   @StringField()

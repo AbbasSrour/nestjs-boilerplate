@@ -1,8 +1,8 @@
+import * as fs from 'node:fs';
+import path from 'node:path';
 import type { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { apiReference } from '@scalar/nestjs-api-reference';
-import path from 'path';
-import * as fs from 'node:fs';
 
 export function setupOpenapi(app: INestApplication): void {
   const filePath = path.join(__dirname, 'openapi-description.txt');
@@ -11,7 +11,7 @@ export function setupOpenapi(app: INestApplication): void {
   const documentBuilder = new DocumentBuilder()
     .setTitle('API')
     .setDescription(apiDoc)
-    .addBearerAuth()
+    .addBearerAuth();
 
   if (process.env.API_VERSION) {
     documentBuilder.setVersion(process.env.API_VERSION);

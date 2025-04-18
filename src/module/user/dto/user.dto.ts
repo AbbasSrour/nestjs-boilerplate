@@ -1,10 +1,10 @@
-import { AbstractDto } from '../../../abstract/dto/abstract.dto';
-import { RoleType } from '../../../constant/role-type';
-import { BooleanFieldOptional } from '../../../decorator/field/boolean-field.decorator';
-import { EmailFieldOptional } from '../../../decorator/field/email-field.decorator';
-import { EnumFieldOptional } from '../../../decorator/field/enum-field.decorator';
-import { PhoneFieldOptional } from '../../../decorator/field/phone-field.decorator';
-import { StringFieldOptional } from '../../../decorator/field/string-field.decorator';
+import { AbstractDto } from '@abstract/dto/abstract.dto';
+import { RoleType } from '@constant/role-type';
+import { BooleanFieldOptional } from '@decorator/field/boolean-field.decorator';
+import { EmailFieldOptional } from '@decorator/field/email-field.decorator';
+import { EnumFieldOptional } from '@decorator/field/enum-field.decorator';
+import { PhoneFieldOptional } from '@decorator/field/phone-field.decorator';
+import { StringFieldOptional } from '@decorator/field/string-field.decorator';
 import type { UserEntity } from '../entity/user.entity';
 
 // TODO, remove this class and use constructor's second argument's type

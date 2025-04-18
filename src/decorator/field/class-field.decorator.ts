@@ -1,22 +1,19 @@
-// eslint-disable-next-line @typescript-eslint/ban-types
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty, type ApiPropertyOptions } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsDefined, NotEquals, ValidateNested } from 'class-validator';
 
-import { type Constructor } from '../../types';
+import type { Constructor } from '@src/types';
 import { IsNullable } from '../validator/is-nullable.decorator';
 import { IsUndefinable } from '../validator/is-undefinable.decorator';
-import { type IFieldOptions } from './field-options';
+import type { IFieldOptions } from './field-options';
 
 type IClassFieldOptions = IFieldOptions;
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function ClassField<TClass extends Constructor>(
   getClass: () => TClass,
   options: Omit<ApiPropertyOptions, 'type'> & IClassFieldOptions = {},
 ): PropertyDecorator {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const classValue = getClass();
 
   const decorators = [
@@ -50,7 +47,6 @@ export function ClassField<TClass extends Constructor>(
   return applyDecorators(...decorators);
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function ClassFieldOptional<TClass extends Constructor>(
   getClass: () => TClass,
   options: Omit<ApiPropertyOptions, 'type' | 'required'> &

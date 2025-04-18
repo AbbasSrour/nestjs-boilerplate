@@ -1,11 +1,11 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
-import { AbstractDto } from '../../../abstract/dto/abstract.dto';
+import { AbstractDto } from '@abstract/dto/abstract.dto';
 import {
   DynamicTranslate,
   StaticTranslate,
-} from '../../../decorator/translate.decorator';
-import type { I18nPath } from '../../../generated/i18n.generated';
+} from '@decorator/translate.decorator';
+import type { I18nPath } from '@src/generated/i18n.generated';
 import type { PostEntity } from '../post.entity';
 import { PostTranslationDto } from './post-translation.dto';
 

@@ -2,12 +2,12 @@ import { Collection } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import type { ICommand, ICommandHandler } from '@nestjs/cqrs';
 import { CommandHandler } from '@nestjs/cqrs';
-import _ from 'lodash';
 
-import { ExtendedEntityRepository } from '../../../abstract/abstract-entity.repository';
+import type { ExtendedEntityRepository } from '@abstract/abstract-entity.repository';
+import { find } from "lodash";
 import type { CreatePostDto } from '../dtos/create-post.dto';
-import { PostEntity } from '../post.entity';
 import { PostTranslationEntity } from '../post-translation.entity';
+import { PostEntity } from '../post.entity';
 
 export class CreatePostCommand implements ICommand {
   constructor(
@@ -41,9 +41,9 @@ export class CreatePostHandler
         postId: postEntity.id,
         languageCode,
         title: createTranslationDto.text,
-        description: _.find(createPostDto.description, {
+        description: find(createPostDto.description, {
           languageCode,
-        })!.text,
+        })?.text || "",
       });
 
       translations.push(translationEntity);

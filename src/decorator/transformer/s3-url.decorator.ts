@@ -1,5 +1,5 @@
+import { GeneratorProvider } from '@provider/generator.provider';
 import { Transform, TransformationType } from 'class-transformer';
-import { GeneratorProvider } from 'provider/generator.provider';
 
 export function S3UrlParser(): PropertyDecorator {
   return Transform((params) => {

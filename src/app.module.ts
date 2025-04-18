@@ -20,14 +20,13 @@ import {
   QueryResolver,
 } from 'nestjs-i18n';
 
-import { ConsoleModule } from './console/console.module';
-import { AuthModule } from './module/auth/auth.module';
-// import { ChatbotModule } from './module/chatbot/chatbot.module';
-import { HealthCheckerModule } from './module/health-checker/health-checker.module';
-// import { PostModule } from './module/post/post.module';
-import { UserModule } from './module/user/user.module';
-import { ApiConfigService } from './packages/shared/services/api-config.service';
-import { SharedModule } from './packages/shared/shared.module';
+// import { ConsoleModule } from './console/console.module';
+import { AuthModule } from '@module/auth/auth.module';
+import { PostModule } from '@module/post/post.module';
+import { UserModule } from '@module/user/user.module';
+import { HealthCheckerModule } from '@package/health-checker/health-checker.module';
+import { ApiConfigService } from '@package/shared/services/api-config.service';
+import { SharedModule } from '@package/shared/shared.module';
 
 @Module({
   imports: [
@@ -60,10 +59,7 @@ import { SharedModule } from './packages/shared/shared.module';
           path: path.join(__dirname, 'i18n/'),
           watch: configService.isDevelopment,
         },
-        typesOutputPath: path.join(
-          __dirname,
-          './generated/i18n.generated',
-        ),
+        typesOutputPath: path.join(__dirname, './generated/i18n.generated'),
       }),
       resolvers: [
         { use: QueryResolver, options: ['lang'] },
@@ -73,11 +69,10 @@ import { SharedModule } from './packages/shared/shared.module';
       imports: [SharedModule],
       inject: [ApiConfigService],
     }),
-    ConsoleModule,
+    // ConsoleModule,
     AuthModule,
     UserModule,
-    // ChatbotModule,
-    // PostModule,
+    PostModule,
     HealthCheckerModule,
   ],
   providers: [],
@@ -86,7 +81,7 @@ export class AppModule implements NestModule, OnModuleInit {
   constructor(private readonly orm: MikroORM) {}
 
   async onModuleInit(): Promise<void> {
-    await this.orm.getMigrator().up();
+    // await this.orm.getMigrator().up();
   }
 
   // For some reason, the auth middlewares in profile and article modules are fired before the request context one,

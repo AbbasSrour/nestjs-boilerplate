@@ -9,7 +9,6 @@ import { PageMetaDto } from './dto/page-meta.dto';
 import type { PageOptionsDto } from './dto/page-options.dto';
 
 export class ExtendedEntityRepository<
-  // eslint-disable-next-line @typescript-eslint/ban-types
   T extends object,
 > extends EntityRepository<T> {
   persist(entity: AnyEntity | AnyEntity[]): EntityManager {

@@ -1,13 +1,14 @@
 import bcrypt from 'bcrypt';
 import { v1 as uuid } from 'uuid';
 
+// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class GeneratorProvider {
   static uuid(): string {
     return uuid();
   }
 
   static fileName(ext: string): string {
-    return GeneratorProvider.uuid() + '.' + ext;
+    return `${GeneratorProvider.uuid()}.${ext}`;
   }
 
   static getS3PublicUrl(key: string): string {
@@ -91,6 +92,7 @@ export class GeneratorProvider {
       );
     }
 
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     const fullMemberName = m[1]!;
 
     const memberParts = fullMemberName.split('.');

@@ -6,8 +6,8 @@ import {
   MikroOrmHealthIndicator,
 } from '@nestjs/terminus';
 
-import { ServiceHealthIndicator } from './health-indicators/service.indicator';
 import { ApiTags } from '@nestjs/swagger';
+import { ServiceHealthIndicator } from './health-indicators/service.indicator';
 
 @ApiTags('Health')
 @Controller('health')

@@ -2,17 +2,13 @@ import type { ClientProxy } from '@nestjs/microservices';
 import { plainToInstance } from 'class-transformer';
 import { firstValueFrom } from 'rxjs';
 
-import { PageTypeException } from '../exception/page-type.exception';
+import { PageTypeException } from '@exception/page-type.exception';
 import type { Constructor } from '../types';
-import type { PageDto } from './dto/page.dto';
 import type { PageMetaDto } from './dto/page-meta.dto';
+import type { PageDto } from './dto/page.dto';
 
-/**
- * Fixme: This class designed to use with @nestjs/microservices by extending and creating a new class.
- * TODO: Create Implementation and usage of it
- */
-export class AbstractClientService<ActionType> {
-  constructor(private client: ClientProxy) {}
+export abstract class AbstractClientService<ActionType> {
+  constructor(private readonly client: ClientProxy) {}
 
   public async send(pattern: ActionType, data: unknown): Promise<void>;
 
@@ -35,7 +31,7 @@ export class AbstractClientService<ActionType> {
       class?: Constructor<R>;
       isPage?: boolean;
     }>,
-  ): Promise<R | PageDto<R> | void> {
+  ): Promise<R | PageDto<R>> {
     const returnData = await firstValueFrom(
       this.client.send<{ data?: R; meta?: PageMetaDto }>(pattern, data),
       {

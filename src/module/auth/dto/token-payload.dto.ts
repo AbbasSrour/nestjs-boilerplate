@@ -1,5 +1,5 @@
-import { NumberField } from '../../../decorator/field/number-field.decorator';
-import { StringField } from '../../../decorator/field/string-field.decorator';
+import { NumberField } from '@decorator/field/number-field.decorator';
+import { StringField } from '@decorator/field/string-field.decorator';
 
 export class TokenPayloadDto {
   @NumberField()

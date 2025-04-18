@@ -1,9 +1,9 @@
 import { Entity, Enum, OneToOne, Property } from '@mikro-orm/core';
 
-import { AbstractEntity } from '../../../abstract/entity/abstract.entity';
-import { RoleType } from '../../../constant/role-type';
-import { UseDto } from '../../../decorator/use-dto.decorator';
-import type { Type } from '../../../interface/type';
+import { AbstractEntity } from '@abstract/entity/abstract.entity';
+import { RoleType } from '@constant/role-type';
+import { UseDto } from '@decorator/use-dto.decorator';
+import type { Type } from '@interface/type';
 import type { UserDtoOptions } from '../dto/user.dto';
 import { UserDto } from '../dto/user.dto';
 import { UserSettingsEntity } from './user-settings.entity';
@@ -36,12 +36,17 @@ export class UserEntity extends AbstractEntity<UserDto, UserDtoOptions> {
   @Property({ nullable: true, type: 'varchar' })
   avatar!: string | null;
 
-  // @VirtualProperty({
-  //   query: (alias) =>
-  //     `SELECT CONCAT(${alias}.first_name, ' ', ${alias}.last_name)`,
+  // @Property<UserEntity>({
+  //   length: 100,
+  //   persist: false,
+  //   generated: (cols) =>
+  //     `(concat(${cols.firstName}, ' ', ${cols.lastName})) virtual`,
   // })
   // fullName!: string;
 
-  @OneToOne(() => UserSettingsEntity, (userSettings) => userSettings.user)
+  @OneToOne(
+    () => UserSettingsEntity,
+    (userSettings) => userSettings.user,
+  )
   settings?: Type<UserSettingsEntity>;
 }

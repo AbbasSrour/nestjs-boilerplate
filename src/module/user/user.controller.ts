@@ -13,26 +13,26 @@ import {
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { PageDto } from '../../abstract/dto/page.dto';
-import { RoleType } from '../../constant/role-type';
-import { ApiPageOkResponse } from '../../decorator/api-page-ok-response.decorator';
-import { Auth } from '../../decorator/auth.decorator';
-import { AuthUser } from '../../decorator/auth-user.decorator';
-import { UseLanguageInterceptor } from '../../interceptor/language-interceptor.service';
-import { TranslationService } from '../../packages/shared/services/translation.service';
-import { UUIDParam } from '../../pipe/uuid-param.pipe';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { PageDto } from '@abstract/dto/page.dto';
+import { RoleType } from '@constant/role-type';
+import { ApiPageOkResponse } from '@decorator/api-page-ok-response.decorator';
+import { AuthUser } from '@decorator/auth-user.decorator';
+import { Auth } from '@decorator/auth.decorator';
+import { UseLanguageInterceptor } from '@interceptor/language-interceptor.service';
+import { TranslationService } from '@package/shared/services/translation.service';
+import { UUIDParam } from '@pipe/uuid-param.pipe';
+import type { CreateUserDto } from './dto/create-user.dto';
+import type { UpdateUserDto } from './dto/update-user.dto';
 import { UserDto } from './dto/user.dto';
-import { UsersPageOptionsDto } from './dto/users-page-options.dto';
-import { UserEntity } from './entity/user.entity';
+import type { UsersPageOptionsDto } from './dto/users-page-options.dto';
+import type { UserEntity } from './entity/user.entity';
 import { UserService } from './user.service';
 
 @Controller('users')
 @ApiTags('Users')
 export class UserController {
   constructor(
-    private userService: UserService,
+    private readonly userService: UserService,
     private readonly translationService: TranslationService,
   ) {}
 

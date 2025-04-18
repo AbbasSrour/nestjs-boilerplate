@@ -7,8 +7,8 @@ import { Injectable, UseInterceptors } from '@nestjs/common';
 import type { Request } from 'express';
 import type { Observable } from 'rxjs';
 
-import { LanguageCode } from '../constant/language-code';
-import { ContextProvider } from '../provider/context.provider';
+import { LanguageCode } from '@constant/language-code';
+import { ContextProvider } from '@provider/context.provider';
 
 @Injectable()
 export class LanguageInterceptor implements NestInterceptor {

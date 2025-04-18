@@ -1,4 +1,4 @@
-import { ClassField } from '../../../decorator/field/class-field.decorator';
+import { ClassField } from '@decorator/field/class-field.decorator';
 import { UserDto } from '../../user/dto/user.dto';
 import { TokenPayloadDto } from './token-payload.dto';
 

@@ -1,10 +1,10 @@
+import { applyDecorators } from '@nestjs/common';
 import { ApiProperty, type ApiPropertyOptions } from '@nestjs/swagger';
 import { IsBoolean, NotEquals } from 'class-validator';
-import { applyDecorators } from '@nestjs/common';
-import { type IFieldOptions } from './field-options';
 import { ToBoolean } from '../transformer/to-boolean.decorator';
-import { IsUndefinable } from '../validator/is-undefinable.decorator';
 import { IsNullable } from '../validator/is-nullable.decorator';
+import { IsUndefinable } from '../validator/is-undefinable.decorator';
+import type { IFieldOptions } from './field-options';
 
 type IBooleanFieldOptions = IFieldOptions;
 

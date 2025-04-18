@@ -4,20 +4,21 @@ import { Injectable } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { plainToClass } from 'class-transformer';
 
-import { ExtendedEntityRepository } from '../../abstract/abstract-entity.repository';
-import type { PageDto } from '../../abstract/dto/page.dto';
-import { RoleType } from '../../constant/role-type';
-import { FileNotImageException, UserNotFoundException } from '../../exception';
-import type { IFile } from '../../interface';
-import { ValidatorService } from '../../packages/shared/services/validator.service';
+import { ExtendedEntityRepository } from '@abstract/abstract-entity.repository';
+import type { PageDto } from '@abstract/dto/page.dto';
+import { RoleType } from '@constant/role-type';
+import {FileNotImageException} from "@exception/file-not-image.exception";
+import { UserNotFoundException } from '@exception/user-not-found.exception';
+import type { IFile } from '@interface/IFile';
+import { ValidatorService } from '@package/shared/services/validator.service';
 import type { UserRegisterDto } from '../auth/dto/user-register.dto';
 import { CreateSettingsCommand } from './command/create-settings.command';
 import { CreateSettingsDto } from './dto/create-settings.dto';
+import type { UpdateUserDto } from './dto/update-user.dto';
 import type { UserDto } from './dto/user.dto';
 import type { UsersPageOptionsDto } from './dto/users-page-options.dto';
-import { UserEntity } from './entity/user.entity';
 import type { UserSettingsEntity } from './entity/user-settings.entity';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UserEntity } from './entity/user.entity';
 
 @Injectable()
 export class UserService {

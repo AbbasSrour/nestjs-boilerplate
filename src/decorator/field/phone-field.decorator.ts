@@ -5,7 +5,7 @@ import { IsPhoneNumber, NotEquals } from 'class-validator';
 import { PhoneNumberSerializer } from '../transformer/phone-number-serializer.decorator';
 import { IsNullable } from '../validator/is-nullable.decorator';
 import { IsUndefinable } from '../validator/is-undefinable.decorator';
-import { type IFieldOptions } from './field-options';
+import type { IFieldOptions } from './field-options';
 
 export function PhoneField(
   options: Omit<ApiPropertyOptions, 'type'> & IFieldOptions = {},

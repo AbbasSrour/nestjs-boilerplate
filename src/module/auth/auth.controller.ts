@@ -10,18 +10,18 @@ import {
 } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
-import { RoleType } from '../../constant/role-type';
-import { Auth } from '../../decorator/auth.decorator';
-import { AuthUser } from '../../decorator/auth-user.decorator';
-import { ApiFile } from '../../decorator/field/api-file.decorator';
-import { type IFile } from '../../interface';
+import { RoleType } from '@constant/role-type';
+import { AuthUser } from '@decorator/auth-user.decorator';
+import { Auth } from '@decorator/auth.decorator';
+import { ApiFile } from '@decorator/field/api-file.decorator';
+import type { IFile } from '@interface/IFile';
 import { UserDto } from '../user/dto/user.dto';
-import { UserEntity } from '../user/entity/user.entity';
+import type { UserEntity } from '../user/entity/user.entity';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
 import { LoginPayloadDto } from './dto/login-payload.dto';
-import { UserLoginDto } from './dto/user-login.dto';
-import { UserRegisterDto } from './dto/user-register.dto';
+import type { UserLoginDto } from './dto/user-login.dto';
+import type { UserRegisterDto } from './dto/user-register.dto';
 
 @ApiTags('Auth')
 @Controller('auth')

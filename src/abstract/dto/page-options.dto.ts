@@ -1,7 +1,7 @@
-import { Order } from '../../constant/order';
-import { EnumFieldOptional } from '../../decorator/field/enum-field.decorator';
-import { NumberFieldOptional } from '../../decorator/field/number-field.decorator';
-import { StringFieldOptional } from '../../decorator/field/string-field.decorator';
+import { Order } from '@constant/order';
+import { EnumFieldOptional } from '@decorator/field/enum-field.decorator';
+import { NumberFieldOptional } from '@decorator/field/number-field.decorator';
+import { StringFieldOptional } from '@decorator/field/string-field.decorator';
 
 export class PageOptionsDto {
   @EnumFieldOptional(() => Order, {

@@ -10,15 +10,15 @@ import { SeedManager } from '@mikro-orm/seeder';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import type { ThrottlerOptions } from '@nestjs/throttler';
-import _ from 'lodash';
-import type { Units } from 'parse-duration';
 import { default as parse } from 'parse-duration';
+import type { Units } from 'parse-duration';
 
-import { ExtendedEntityRepository } from '../../../abstract/abstract-entity.repository';
+import { ExtendedEntityRepository } from '@abstract/abstract-entity.repository';
+import { isNil } from 'lodash';
 
 @Injectable()
 export class ApiConfigService {
-  constructor(private configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) {}
 
   get isDevelopment(): boolean {
     return this.nodeEnv === 'development';
@@ -38,7 +38,7 @@ export class ApiConfigService {
     try {
       return Number(value);
     } catch {
-      throw new Error(key + ' environment variable is not a number');
+      throw new Error(`${key} environment variable is not a number`);
     }
   }
 
@@ -59,7 +59,7 @@ export class ApiConfigService {
     try {
       return Boolean(JSON.parse(value));
     } catch {
-      throw new Error(key + ' env var is not a boolean');
+      throw new Error(`${key} env var is not a boolean`);
     }
   }
 
@@ -184,8 +184,8 @@ export class ApiConfigService {
   private get(key: string): string {
     const value = this.configService.get<string>(key);
 
-    if (_.isNil(value)) {
-      throw new TypeError(key + ' environment variable does not set'); // probably we should call process.exit() too to avoid locking the service
+    if (isNil(value)) {
+      throw new TypeError(`${key} environment variable does not set`); // probably we should call process.exit() too to avoid locking the service
     }
 
     return value;

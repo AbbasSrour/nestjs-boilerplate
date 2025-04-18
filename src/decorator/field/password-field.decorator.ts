@@ -1,13 +1,13 @@
+import { applyDecorators } from '@nestjs/common';
 import type { ApiPropertyOptions } from '@nestjs/swagger';
+import { NotEquals } from 'class-validator';
+import { IsNullable } from '../validator/is-nullable.decorator';
+import { IsPassword } from '../validator/is-password.decorator';
+import { IsUndefinable } from '../validator/is-undefinable.decorator';
 import {
   type IStringFieldOptions,
   StringField,
 } from './string-field.decorator';
-import { NotEquals } from 'class-validator';
-import { applyDecorators } from '@nestjs/common';
-import { IsPassword } from '../validator/is-password.decorator';
-import { IsUndefinable } from '../validator/is-undefinable.decorator';
-import { IsNullable } from '../validator/is-nullable.decorator';
 
 export function PasswordField(
   options: Omit<ApiPropertyOptions, 'type' | 'minLength'> &

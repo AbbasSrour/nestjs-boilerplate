@@ -2,22 +2,20 @@ import { applyDecorators } from '@nestjs/common';
 import { ApiProperty, type ApiPropertyOptions } from '@nestjs/swagger';
 import { IsEnum, NotEquals } from 'class-validator';
 
-import { GeneratorProvider } from '../../provider/generator.provider';
+import { GeneratorProvider } from '@provider/generator.provider';
 import { ToArray } from '../transformer/to-array.decorator';
 import { IsNullable } from '../validator/is-nullable.decorator';
 import { IsUndefinable } from '../validator/is-undefinable.decorator';
-import { type IFieldOptions } from './field-options';
+import type { IFieldOptions } from './field-options';
 
 type IEnumFieldOptions = IFieldOptions;
 
-// eslint-disable-next-line canonical/no-unused-exports,@typescript-eslint/ban-types
-type ApiPropertyEnumType = never[] | Record<string, never> | Object;
+type ApiPropertyEnumType = never[] | Record<string, never> | object;
 
 export function ApiEnumProperty<TEnum extends ApiPropertyEnumType>(
   getEnum: () => TEnum,
   options: Omit<ApiPropertyOptions, 'type'> & { each?: boolean } = {},
 ): PropertyDecorator {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const enumValue = getEnum();
 
   return ApiProperty({
@@ -39,13 +37,11 @@ export function ApiEnumPropertyOptional<TEnum extends ApiPropertyEnumType>(
   return ApiEnumProperty(getEnum, { required: false, ...options });
 }
 
-// eslint-disable-next-line
 export function EnumField<TEnum extends object>(
   getEnum: () => TEnum,
   options: Omit<ApiPropertyOptions, 'type' | 'enum' | 'enumName' | 'isArray'> &
     IEnumFieldOptions = {},
 ): PropertyDecorator {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/ban-types
   const enumValue = getEnum();
   const decorators = [IsEnum(enumValue, { each: options.each })];
 
@@ -68,7 +64,6 @@ export function EnumField<TEnum extends object>(
   return applyDecorators(...decorators);
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function EnumFieldOptional<TEnum extends object>(
   getEnum: () => TEnum,
   options: Omit<ApiPropertyOptions, 'type' | 'required' | 'enum' | 'enumName'> &

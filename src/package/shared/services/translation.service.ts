@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import _ from 'lodash';
-import { I18nService, type TranslateOptions } from 'nestjs-i18n';
+import { I18nService, TranslateOptions } from 'nestjs-i18n';
 
-import { AbstractDto } from '../../../abstract/dto/abstract.dto';
-import { STATIC_TRANSLATION_DECORATOR_KEY } from '../../../decorator/translate.decorator';
-import { type ITranslationDecoratorInterface } from '../../../interface';
-import { ContextProvider } from '../../../provider/context.provider';
+import { AbstractDto } from '@abstract/dto/abstract.dto';
+import { STATIC_TRANSLATION_DECORATOR_KEY } from '@decorator/translate.decorator';
+import type { ITranslationDecoratorInterface } from '@interface/ITranslationDecoratorInterface';
+import { ContextProvider } from '@provider/context.provider';
+import { isArray, isString, map } from 'lodash';
 
 @Injectable()
 export class TranslationService {
@@ -20,14 +20,14 @@ export class TranslationService {
 
   async translateNecessaryKeys<T extends AbstractDto>(dto: T): Promise<T> {
     await Promise.all(
-      _.map(dto, async (value, key) => {
-        if (_.isString(value)) {
+      map(dto, async (value, key) => {
+        if (isString(value)) {
           const translateDec: ITranslationDecoratorInterface | undefined =
             Reflect.getMetadata(STATIC_TRANSLATION_DECORATOR_KEY, dto, key);
 
           if (translateDec) {
             dto[key] = await this.translate(
-              `${translateDec.prefix ? translateDec.prefix + '.' : ''}${value}`,
+              `${translateDec.prefix ? `${translateDec.prefix}.` : ''}${value}`,
             );
           }
 
@@ -38,9 +38,9 @@ export class TranslationService {
           return this.translateNecessaryKeys(value);
         }
 
-        if (_.isArray(value)) {
+        if (isArray(value)) {
           return Promise.all(
-            _.map(value, (v) => {
+            map(value, (v) => {
               if (v instanceof AbstractDto) {
                 return this.translateNecessaryKeys(v);
               }

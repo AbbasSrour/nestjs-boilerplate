@@ -89,3 +89,4 @@ temp
 /tsconfig.build.tsbuildinfo
 /src/generated/i18n.generated
 /tsconfig.tsbuildinfo
+/**/*/tsconfig.build.tsbuildinfo

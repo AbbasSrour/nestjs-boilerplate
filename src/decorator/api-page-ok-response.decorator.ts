@@ -1,7 +1,7 @@
-import { applyDecorators, type Type } from '@nestjs/common';
+import { type Type, applyDecorators } from '@nestjs/common';
 import { ApiExtraModels, ApiOkResponse, getSchemaPath } from '@nestjs/swagger';
 
-import { PageDto } from '../abstract/dto/page.dto';
+import { PageDto } from '@abstract/dto/page.dto';
 
 export function ApiPageOkResponse<T extends Type>(options: {
   type: T;

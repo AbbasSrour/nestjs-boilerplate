@@ -1,5 +1,5 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { EntityRepository } from '@mikro-orm/postgresql';
+import type { EntityRepository } from '@mikro-orm/postgresql';
 import type { ICommand, ICommandHandler } from '@nestjs/cqrs';
 import { CommandHandler } from '@nestjs/cqrs';
 
@@ -26,7 +26,7 @@ export class CreateSettingsHandler
     const { userId, createSettingsDto } = command;
     const userSettingsEntity =
       // TODO: fix type cast
-      // @ts-expect-error
+      // @ts-ignore
       this.userSettingsRepository.create(createSettingsDto);
 
     userSettingsEntity.userId = userId;

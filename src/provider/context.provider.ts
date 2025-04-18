@@ -1,8 +1,9 @@
 import { ClsServiceManager } from 'nestjs-cls';
 
-import type { LanguageCode } from '../constant/language-code';
-import type { UserEntity } from '../module/user/entity/user.entity';
+import type { LanguageCode } from '@constant/language-code';
+import type { UserEntity } from '@module/user/entity/user.entity';
 
+// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class ContextProvider {
   private static readonly nameSpace = 'request';
 
@@ -16,8 +17,7 @@ export class ContextProvider {
     return store.get<T>(ContextProvider.getKeyWithNamespace(key));
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private static set(key: string, value: any): void {
+  private static set(key: string, value: unknown): void {
     const store = ClsServiceManager.getClsService();
 
     store.set(ContextProvider.getKeyWithNamespace(key), value);

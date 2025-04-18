@@ -1,5 +1,5 @@
 import type { Type } from '@nestjs/common';
-import { applyDecorators, UseInterceptors } from '@nestjs/common';
+import { UseInterceptors, applyDecorators } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import {
   ApiBody,
@@ -11,9 +11,9 @@ import type {
   ReferenceObject,
   SchemaObject,
 } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
-import _ from 'lodash';
 
-import type { IApiFile } from '../../interface';
+import type { IApiFile } from '@interface/IApiFile';
+import { castArray, mapValues } from 'lodash';
 
 const PARAMTYPES_METADATA = 'design:paramtypes';
 
@@ -48,7 +48,7 @@ function explore<K extends string, V>(
       propertyKey,
     ) || {};
 
-  const parametersWithType = _.mapValues(
+  const parametersWithType = mapValues(
     reverseObjectKeys(routeArgsMetadata),
     (param) => ({
       // @ts-ignore
@@ -127,7 +127,7 @@ export function ApiFile(
   files: _.Many<IApiFile>,
   options: Partial<{ isRequired: boolean }> = {},
 ): MethodDecorator {
-  const filesArray = _.castArray(files);
+  const filesArray = castArray(files);
   const apiFileInterceptors = filesArray.map((file) =>
     file.isArray
       ? UseInterceptors(FilesInterceptor(file.name))
