@@ -90,3 +90,5 @@ temp
 /src/generated/i18n.generated
 /tsconfig.tsbuildinfo
 /**/*/tsconfig.build.tsbuildinfo
+**/metadata.*
+temp

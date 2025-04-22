@@ -71,6 +71,7 @@
     "parse-duration": "^1.1.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
@@ -99,6 +100,7 @@
     "@types/node": "^22.10.7",
     "@types/passport": "^1.0.17",
     "@types/passport-jwt": "^4.0.1",
+    "@types/passport-local": "^1.0.38",
     "@types/supertest": "^6.0.0",
     "@types/uuid": "^10.0.0",
     "@vitest/coverage-v8": "^3.0.2",
@@ -122,6 +124,10 @@
     "typescript": "^5.8.3",
     "unplugin-swc": "^1.4.4",
     "vitest": "^3.0.2"
+  },
+  "packageManager": "pnpm@9.12.3",
+  "engines": {
+    "node": ">=20"
   },
   "volta": {
     "node": "21.7.1"

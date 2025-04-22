@@ -27,6 +27,6 @@
     ]
   },
   "generateOptions": {
-    "baseDir": "./src/module"
+    "baseDir": "./module"
   }
 }
