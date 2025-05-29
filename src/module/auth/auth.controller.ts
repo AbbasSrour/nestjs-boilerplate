@@ -27,8 +27,8 @@ import type { UserRegisterDto } from './dto/user-register.dto';
 @Controller('auth')
 export class AuthController {
   constructor(
-    private userService: UserService,
-    private authService: AuthService
+    private readonly userService: UserService,
+    private readonly authService: AuthService
   ) {}
 
   @Version('1')

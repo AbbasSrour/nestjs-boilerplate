@@ -18,7 +18,8 @@ import { isNil } from 'lodash';
 
 @Injectable()
 export class ApiConfigService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) {
+  }
 
   get isDevelopment(): boolean {
     return this.nodeEnv === 'development';
